@@ -1,0 +1,184 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const features = [
+	{
+		title: "Player Movement & Sprint",
+		description: "Character movement and sprint mechanics.",
+		status: "completed"
+	},
+	{
+		title: "NPC Dialogue",
+		description: "NPC interactions and dialogue with player movement control.",
+		status: "completed"
+	},
+	{
+		title: "NPC Facing",
+		description: "Characters face the player during interactions.",
+		status: "completed"
+	},
+	{
+		title: "Spiritual-only Objects",
+		description: "Objects visible in the spiritual dimension.",
+		status: "completed"
+	},
+	{
+		title: "Interaction Prompts",
+		description: "Visual prompts for interactable objects and NPCs.",
+		status: "completed"
+	},
+	{
+		title: "Core Combat Prototype",
+		description: "Foundation for the turn-based battle system.",
+		status: "planned"
+	},
+	{
+		title: "Battle UI",
+		description: "Interface for actions, characters and battle information.",
+		status: "planned"
+	},
+	{
+		title: "Exploration Polish",
+		description: "Refining movement, interactions and exploration feedback.",
+		status: "planned"
+	}
+];
+
+const completedFeatures = features.filter(
+	(feature) => feature.status === "completed"
+);
+
+const plannedFeatures = features.filter(
+	(feature) => feature.status === "planned"
+);
+---
+
+<MainLayout title="Roadmap | Guanche Warriors">
+	<div class="roadmap-page">
+		<header class="roadmap-header">
+			<span class="eyebrow">DEVELOPMENT PROGRESS</span>
+			<h1>Development Roadmap</h1>
+			<p>
+				Follow the journey from early gameplay systems
+				to a playable JRPG demo.
+			</p>
+		</header>
+
+		<section class="roadmap-section">
+			<h2>Completed Features</h2>
+
+			<div class="feature-list">
+				{completedFeatures.map((feature) => (
+					<article class="feature-card">
+						<span class="status completed">Completed</span>
+						<h3>{feature.title}</h3>
+						<p>{feature.description}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="roadmap-section">
+			<h2>Planned Features</h2>
+
+			<div class="feature-list">
+				{plannedFeatures.map((feature) => (
+					<article class="feature-card">
+						<span class="status planned">Planned</span>
+						<h3>{feature.title}</h3>
+						<p>{feature.description}</p>
+					</article>
+				))}
+			</div>
+		</section>
+	</div>
+</MainLayout>
+
+<style>
+	.roadmap-page {
+		max-width: 950px;
+		margin: 0 auto;
+		padding: 80px 40px;
+	}
+
+	.roadmap-header {
+		margin-bottom: 64px;
+	}
+
+	.eyebrow {
+		color: #d69b48;
+		font-size: 12px;
+		font-weight: bold;
+		letter-spacing: 3px;
+	}
+
+	h1 {
+		font-size: clamp(36px, 6vw, 60px);
+		margin: 20px 0;
+	}
+
+	.roadmap-header p {
+		color: #aeb5b9;
+		line-height: 1.8;
+	}
+
+	.roadmap-section {
+		margin-bottom: 60px;
+	}
+
+	h2 {
+		color: #d69b48;
+		margin-bottom: 24px;
+	}
+
+	.feature-list {
+		display: grid;
+		gap: 16px;
+	}
+
+	.feature-card {
+		background: #242c32;
+		border: 1px solid #394047;
+		border-radius: 6px;
+		padding: 24px;
+	}
+
+	.status {
+		display: inline-block;
+		font-size: 11px;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.completed {
+		color: #75a68b;
+	}
+
+	.planned {
+		color: #d69b48;
+	}
+
+	h3 {
+		color: #e8e0cf;
+		margin: 12px 0;
+	}
+
+	.feature-card p {
+		color: #aeb5b9;
+		font-size: 14px;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	@media (max-width: 600px) {
+		.roadmap-page {
+			padding: 50px 20px;
+		}
+
+		.feature-card {
+			padding: 20px;
+		}
+	}
+</style>

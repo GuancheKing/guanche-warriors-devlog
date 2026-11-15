@@ -1,0 +1,123 @@
+
+---
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+	const posts = await getCollection(
+		"devlog",
+		({ data }) => data.draft !== true
+	);
+
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post }
+	}));
+}
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+
+const { title, description, pubDate, category } = post.data;
+
+const formattedDate = pubDate.toLocaleDateString("en-GB", {
+	day: "numeric",
+	month: "long",
+	year: "numeric"
+});
+---
+
+<MainLayout title={`${title} | Guanche Warriors`}>
+	<article class="post-page">
+		<header class="post-header">
+			<a href="/devlog/">← BACK TO DEVLOG</a>
+
+			<span class="category">{category}</span>
+
+			<h1>{title}</h1>
+
+			<p class="description">{description}</p>
+
+			<time datetime={pubDate.toISOString()}>
+				{formattedDate}
+			</time>
+		</header>
+
+		<div class="post-content">
+			<Content />
+		</div>
+	</article>
+</MainLayout>
+
+<style>
+	.post-page {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 80px 40px;
+	}
+
+	.post-header {
+		margin-bottom: 48px;
+		border-bottom: 1px solid #394047;
+		padding-bottom: 32px;
+	}
+
+	.post-header > a {
+		display: inline-block;
+		margin-bottom: 40px;
+		color: #d69b48;
+		font-size: 12px;
+		text-decoration: none;
+	}
+
+	.category {
+		display: block;
+		color: #d69b48;
+		font-size: 11px;
+		font-weight: bold;
+		letter-spacing: 2px;
+	}
+
+	h1 {
+		font-size: clamp(32px, 6vw, 52px);
+		line-height: 1.15;
+		margin: 18px 0;
+	}
+
+	.description {
+		color: #aeb5b9;
+		font-size: 17px;
+		line-height: 1.7;
+	}
+
+	time {
+		color: #92999e;
+		font-size: 13px;
+	}
+
+	.post-content {
+		color: #c5c9c6;
+		font-size: 16px;
+		line-height: 1.9;
+	}
+
+	.post-content h2 {
+		color: #d69b48;
+		margin-top: 42px;
+	}
+
+	.post-content h3 {
+		color: #e8e0cf;
+	}
+
+	.post-content a {
+		color: #d69b48;
+	}
+
+	@media (max-width: 600px) {
+		.post-page {
+			padding: 50px 20px;
+		}
+	}
+</style>

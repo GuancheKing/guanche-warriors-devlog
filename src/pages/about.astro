@@ -1,0 +1,121 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="About | Guanche Warriors">
+	<article class="about-page">
+
+		<header class="about-header">
+			<span class="eyebrow">ABOUT THE GAME</span>
+
+			<h1>A World Between Two Realms</h1>
+
+			<p>
+				Guanche Warriors is an independent 2.5D turn-based JRPG
+				inspired by the Canary Islands.
+			</p>
+		</header>
+
+		<section class="about-section">
+			<h2>The World</h2>
+
+			<p>
+				Discover a world inspired by the landscapes,
+				culture and heritage of the Canary Islands.
+			</p>
+
+			<p>
+				Eight warriors, representing eight islands,
+				will explore a world where physical and
+				spiritual dimensions are deeply connected.
+			</p>
+		</section>
+
+		<section class="about-section">
+			<h2>Core Features</h2>
+
+			<ul>
+				<li>Classic turn-based combat.</li>
+				<li>A party of four characters.</li>
+				<li>Eight playable island warriors.</li>
+				<li>Physical and spiritual world exploration.</li>
+				<li>Character transformations and progression.</li>
+				<li>Handcrafted pixel art environments.</li>
+			</ul>
+		</section>
+
+		<section class="about-section">
+			<h2>Development Journey</h2>
+
+			<p>
+				Guanche Warriors is currently in early development,
+				with a focus on building its core gameplay systems
+				and working towards a playable demo.
+			</p>
+
+			<a href="/devlog/">Follow the Development Journal →</a>
+		</section>
+
+	</article>
+</MainLayout>
+
+<style>
+	.about-page {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 80px 40px;
+	}
+
+	.about-header {
+		margin-bottom: 70px;
+	}
+
+	.eyebrow {
+		color: #d69b48;
+		font-size: 12px;
+		font-weight: bold;
+		letter-spacing: 3px;
+	}
+
+	h1 {
+		font-size: clamp(36px, 6vw, 64px);
+		line-height: 1.2;
+		margin: 20px 0;
+	}
+
+	.about-header p {
+		color: #aeb5b9;
+		font-size: 19px;
+		line-height: 1.8;
+	}
+
+	.about-section {
+		margin-bottom: 64px;
+	}
+
+	h2 {
+		color: #d69b48;
+		font-size: 28px;
+	}
+
+	.about-section p,
+	.about-section li {
+		color: #c5c9c6;
+		line-height: 1.9;
+	}
+
+	.about-section a {
+		display: inline-block;
+		margin-top: 20px;
+		color: #d69b48;
+		text-decoration: none;
+		font-weight: bold;
+	}
+
+	@media (max-width: 600px) {
+		.about-page {
+			padding: 50px 20px;
+		}
+	}
+</style>

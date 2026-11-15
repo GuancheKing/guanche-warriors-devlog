@@ -1,0 +1,79 @@
+
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import DevlogCard from "../../components/DevlogCard.astro";
+
+const posts = (await getCollection(
+	"devlog",
+	({ data }) => data.draft !== true
+)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<MainLayout title="Devlog | Guanche Warriors">
+	<section class="devlog-page">
+		<header class="page-heading">
+			<span>THE DEVELOPMENT JOURNAL</span>
+			<h1>Devlog</h1>
+			<p>
+				Follow the development journey of Guanche Warriors.
+			</p>
+		</header>
+
+		<div class="posts-grid">
+			{posts.map((post) => (
+				<DevlogCard post={post} />
+			))}
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	.devlog-page {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 80px 40px;
+	}
+
+	.page-heading {
+		margin-bottom: 48px;
+	}
+
+	.page-heading span {
+		color: #d69b48;
+		font-size: 11px;
+		letter-spacing: 3px;
+		font-weight: bold;
+	}
+
+	.page-heading h1 {
+		font-size: 48px;
+		margin: 16px 0;
+	}
+
+	.page-heading p {
+		color: #aeb5b9;
+	}
+
+	.posts-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 24px;
+	}
+
+	@media (max-width: 600px) {
+		.devlog-page {
+			padding: 50px 20px;
+		}
+
+		.posts-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.page-heading h1 {
+			font-size: 36px;
+		}
+	}
+</style>
