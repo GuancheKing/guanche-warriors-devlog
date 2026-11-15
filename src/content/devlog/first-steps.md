@@ -8,8 +8,6 @@ series: "guanche-warriors"
 draft: false
 ---
 
-# The Beginning of Guanche Warriors
-
 Every game starts with an idea.
 
 Guanche Warriors began with a simple ambition: to create an original JRPG inspired by the Canary Islands, combining my passion for video games with my journey into game development.

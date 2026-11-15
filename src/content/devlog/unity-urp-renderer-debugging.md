@@ -8,8 +8,6 @@ cover: "/guanche-warriors-devlog/images/devlog/unity-urp-after.png"
 draft: false
 ---
 
-# Debugging Unity URP: When a 2D Renderer Breaks Your 3D Lighting
-
 Sometimes the most frustrating bugs turn out to have surprisingly simple explanations.
 
 While working on a lighting mechanic for a small Unity prototype, I ran into an issue that initially looked like a problem with the lighting itself.

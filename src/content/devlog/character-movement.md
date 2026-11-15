@@ -1,14 +1,11 @@
-
 ---
 title: "Bringing the World to Life"
 description: "Building the foundations of character movement and NPC interactions in Guanche Warriors."
-pubDate: 2026-11-16
+pubDate: 2026-11-15
 category: "Programming"
 series: "guanche-warriors"
 draft: false
 ---
-
-# Bringing the World to Life
 
 One of the first challenges in developing Guanche Warriors was creating the foundations for exploration.
 
