@@ -17,8 +17,13 @@ const devlog = defineCollection({
 			"Programming",
 			"Art & Design",
 			"Game Design",
-			"Production"
+			"Production",
+            "Unity & Learning"
 		]),
+        series: z.enum([
+            "guanche-warriors",
+            "developer-notes"
+        ]).default("guanche-warriors"),
 		cover: z.string().optional(),
 		draft: z.boolean().default(false)
 	})

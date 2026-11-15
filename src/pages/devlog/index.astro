@@ -10,6 +10,15 @@ const posts = (await getCollection(
 )).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const guanchePosts = posts.filter(
+	(post) => post.data.series === "guanche-warriors"
+);
+
+const developerNotes = posts.filter(
+	(post) => post.data.series === "developer-notes"
+);
+
 ---
 
 <MainLayout title="Devlog | Guanche Warriors">
@@ -22,11 +31,37 @@ const posts = (await getCollection(
 			</p>
 		</header>
 
-		<div class="posts-grid">
-			{posts.map((post) => (
-				<DevlogCard post={post} />
-			))}
-		</div>
+
+        <section class="posts-section">
+            <h2>Guanche Warriors Development</h2>
+
+            <p>
+                Follow the development of Guanche Warriors,
+                from gameplay systems to production milestones.
+            </p>
+
+            <div class="posts-grid">
+                {guanchePosts.map((post) => (
+                    <DevlogCard post={post} />
+                ))}
+            </div>
+        </section>
+
+        <section class="posts-section">
+            <h2>Developer Notes</h2>
+
+            <p>
+                Programming challenges, experiments and lessons
+                learned while developing games.
+            </p>
+
+            <div class="posts-grid">
+                {developerNotes.map((post) => (
+                    <DevlogCard post={post} />
+                ))}
+            </div>
+        </section>
+
 	</section>
 </MainLayout>
 
@@ -76,4 +111,20 @@ const posts = (await getCollection(
 			font-size: 36px;
 		}
 	}
+        .posts-section {
+            margin-top: 64px;
+        }
+
+        .posts-section h2 {
+            color: #d69b48;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .posts-section > p {
+            color: #aeb5b9;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
 </style>
