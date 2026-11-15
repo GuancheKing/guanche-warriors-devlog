@@ -1,61 +1,65 @@
+
 # Guanche Warriors — Development Journal
 
-Welcome to the official development journal of **Guanche Warriors**, an independent 2.5D turn-based JRPG inspired by the Canary Islands.
+Guanche Warriors is an independent 2.5D turn-based JRPG inspired by the Canary Islands, currently in development with Unity.
 
-This repository contains the source code for the development journal website, where I document the process of building the game, from early prototypes and programming challenges to game design decisions, artistic development, and future milestones.
+This repository contains the source code for its development journal, a website where I document the process of building the game, from early prototypes and programming challenges to technical decisions, experiments, and production milestones.
 
-The goal is to share not only the results, but also the technical challenges, solutions, and lessons learned throughout development.
+The goal is to share the development process, including the problems encountered, the solutions explored, and the lessons learned along the way.
 
-## 🌐 Live Website
+## Live Website
 
 **[Visit the Guanche Warriors Devlog](https://guancheking.github.io/guanche-warriors-devlog/)**
 
-Follow the development journey, explore technical articles, and discover the progress of the project.
+## About Guanche Warriors
 
-## 🎮 About Guanche Warriors
+Guanche Warriors draws inspiration from the culture, landscapes, and heritage of the Canary Islands.
 
-Guanche Warriors is an indie JRPG developed in Unity, drawing inspiration from the culture, mythology, and landscapes of the Canary Islands.
+The project aims to combine the spirit of classic JRPGs with an original fantasy setting and a distinctive visual identity.
 
-The game aims to combine classic turn-based RPG mechanics with a distinctive aesthetic and an original fantasy setting.
+Development is currently focused on establishing the core gameplay systems and working towards a playable demo.
 
-### Planned Game Features
+## About This Devlog
 
-- Classic turn-based combat with a four-character party.
-- Exploration across interconnected physical and spiritual worlds.
-- Character transformations and progression systems.
-- NPC interactions, dialogue, and environmental exploration.
+The website serves as both a development journal for Guanche Warriors and a space to document my broader learning experience as a game programmer.
 
-The game is currently in early development, with the primary objective of creating a playable demo.
+Content is organized into two main sections:
 
-## 🛠️ Tech Stack
+- **Guanche Warriors Development:** Progress updates, technical challenges, and development decisions related to the game.
+- **Developer Notes:** Programming experiments, debugging experiences, and lessons learned while working with game engines and other projects.
 
-The development journal is built using:
+The intention is to document how things are built, not just showcase finished results.
 
-| Technology     | Purpose                                           |
-| -------------- | ------------------------------------------------- |
-| Astro          | Static site generation and component architecture |
-| JavaScript     | Data processing and page logic                    |
-| HTML           | Website structure and semantic markup             |
-| CSS            | Styling and responsive design                     |
-| Markdown       | Development articles and documentation            |
-| Git            | Version control                                   |
-| GitHub Pages   | Website hosting                                   |
-| GitHub Actions | Automated deployment                              |
+## Tech Stack
 
-## ✨ Website Features
+The website is built with the following technologies:
 
-The website currently includes:
+| Technology | Purpose |
+|------------|---------|
+| Astro | Static site generation and component architecture |
+| JavaScript | Data processing and page logic |
+| HTML | Page structure and semantic markup |
+| CSS | Styling and responsive design |
+| Markdown | Articles and documentation |
+| Git | Version control |
+| GitHub Pages | Static website hosting |
+| GitHub Actions | Automated builds and deployment |
 
-- Responsive design for desktop and mobile devices.
-- A homepage displaying the latest development updates.
-- A development journal powered by Astro Content Collections.
-- Markdown-based articles with metadata validation.
-- Automatically generated article pages using dynamic routes.
-- A project overview page.
-- A development roadmap.
+## Website Features
+
+The current implementation includes:
+
+- Responsive layout for desktop and mobile devices.
+- Homepage displaying the latest development updates.
+- Markdown-based articles managed through Astro Content Collections.
+- Metadata validation using Zod.
+- Automatic generation of individual article pages.
+- Reusable components for navigation, layouts, and article cards.
+- Separate editorial sections for game updates and developer notes.
+- Project overview and high-level development roadmap.
 - Automated deployment through GitHub Actions.
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 guanche-warriors-devlog/
@@ -63,6 +67,7 @@ guanche-warriors-devlog/
 │   └── workflows/
 │       └── deploy.yml
 ├── public/
+│   └── images/
 ├── src/
 │   ├── components/
 │   │   ├── DevlogCard.astro
@@ -83,48 +88,44 @@ guanche-warriors-devlog/
 │   │   └── global.css
 │   └── content.config.js
 ├── astro.config.mjs
-└── package.json
+├── package.json
+└── package-lock.json
 ```
 
-## 💻 Local Development
+## Local Development
 
-To run the development journal locally, you will need:
+### Requirements
 
-- Node.js (a version supported by the installed Astro release).
+- Node.js compatible with the installed Astro version.
 - npm.
 - Git.
 
-### 1. Clone the repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/GuancheKing/guanche-warriors-devlog.git
-```
-
-### 2. Navigate to the project directory
-
-```bash
 cd guanche-warriors-devlog
 ```
 
-### 3. Install dependencies
+### Install dependencies
 
 ```bash
 npm ci
 ```
 
-### 4. Start the development server
+### Start the development server
 
 ```bash
 npm run dev
 ```
 
-Open the local development website:
+The development website will be available at:
 
 http://localhost:4321/guanche-warriors-devlog/
 
-On Windows PowerShell, if script execution restrictions prevent `npm` from running, use `npm.cmd` instead.
+On Windows PowerShell, if script execution restrictions prevent npm from running, use `npm.cmd` instead.
 
-### 5. Build for production
+### Build for production
 
 ```bash
 npm run build
@@ -132,51 +133,52 @@ npm run build
 
 Astro generates the static website in the `dist/` directory.
 
-## 📝 Publishing Development Updates
+## Content Management
 
-Development articles are written in Markdown and stored in:
+Development articles are stored as Markdown files in:
 
 `src/content/devlog/`
 
-Each article contains Frontmatter metadata, including:
+Each article includes Frontmatter metadata defining its title, description, publication date, category, editorial series, optional cover image, and draft status.
 
-- Title.
-- Description.
-- Publication date.
-- Category.
-- Optional cover image.
-- Draft status.
+The content schema is defined in `src/content.config.js` and validated using Zod.
 
-Astro automatically retrieves the articles, displays them in the development journal, and generates individual pages for published posts.
+Astro Content Collections handles article retrieval, while dynamic routes generate individual pages during the build process.
 
-## 🚀 Deployment
+New articles are automatically included in the relevant sections of the website without requiring changes to the page templates.
 
-The website is hosted on GitHub Pages and deployed automatically using GitHub Actions.
+## Deployment
 
-Every push to the `main` branch triggers the deployment workflow, which builds the Astro project and publishes the generated website.
+The website is hosted on GitHub Pages.
 
-## 🗺️ Development Roadmap
+Deployment is automated through GitHub Actions. Every push to the `main` branch triggers a workflow that installs the project dependencies, builds the Astro website, and publishes the generated static files.
 
-The website will continue evolving alongside the game.
+The deployment workflow is defined in:
 
-Future improvements include:
+`.github/workflows/deploy.yml`
 
-- Integrating original Guanche Warriors artwork and screenshots.
+## Development Roadmap
+
+The website will continue evolving alongside Guanche Warriors.
+
+Planned improvements include:
+
+- Integrating original game artwork and development screenshots.
+- Refining the visual design and navigation.
 - Expanding the development journal with technical articles.
-- Improving the visual identity and user experience.
-- Adding further documentation of gameplay systems.
-- Showcasing development milestones and playable prototypes.
+- Improving content organization and discovery.
+- Documenting development milestones and future playable prototypes.
 
-## 👨‍💻 About me, the Developer
+## About the Developer
 
-I'm **Pepo Jiménez**, a developer transitioning into the video game industry, with a background in digital marketing and audiovisual production.
+I'm **Pepo Jiménez**, an aspiring game programmer with a background in digital marketing and audiovisual production.
 
-I'm currently developing my programming skills through practical projects, game jams, and game development training.
+I'm currently focused on game programming, combining formal training with hands-on development, collaborative projects, and game jams.
 
-Guanche Warriors represents both a personal creative project and an opportunity to apply and expand my technical knowledge in game development.
+Guanche Warriors is both a personal creative project and an opportunity to apply and expand my technical knowledge through practical game development challenges.
 
 **GitHub:** [GuancheKing](https://github.com/GuancheKing)
 
 ---
 
-**Guanche Warriors — Building a world, one turn at a time.**
+*Guanche Warriors — Building a world, one turn at a time.*
