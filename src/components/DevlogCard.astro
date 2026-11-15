@@ -1,31 +1,65 @@
 
 ---
-const { post } = Astro.props;
+import type { CollectionEntry } from "astro:content";
+import type { Language } from "../i18n/ui";
 
-const base = import.meta.env.BASE_URL;
+interface Props {
+	post: CollectionEntry<"devlog">;
+	lang?: Language;
+}
+
+const { post, lang = "en" } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
 
 const isDeveloperNote = post.data.series === "developer-notes";
+const isSpanishPost = post.id.startsWith("es/");
+
+const isEnglishFallback = lang === "es" && !isSpanishPost;
 
 const seriesLabel = isDeveloperNote
 	? "DEVELOPER NOTES"
 	: "GUANCHE WARRIORS";
 
-const { title, description, pubDate, category, cover } = post.data;
+const {
+	title,
+	description,
+	pubDate,
+	category,
+	cover,
+} = post.data;
 
-const formattedDate = pubDate.toLocaleDateString("en-GB", {
-	day: "numeric",
-	month: "long",
-	year: "numeric",
-});
+const formattedDate = pubDate.toLocaleDateString(
+	lang === "es" ? "es-ES" : "en-GB",
+	{
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	}
+);
 
-// Resolve local images correctly when deployed to GitHub Pages.
 const coverUrl = cover
-	? /^(https?:\/\/|data:)/.test(cover) || cover.startsWith(base)
+	? /^(https?:\/\/|data:)/.test(cover) ||
+		cover.startsWith(base)
 		? cover
 		: `${base}${cover.replace(/^\/+/, "")}`
 	: null;
 
-const articleUrl = `${base}devlog/${post.id}/`;
+const articleSlug = post.id
+	.replace(/^en\//, "")
+	.replace(/^es\//, "");
+
+const articleUrl = isSpanishPost
+	? `${base}es/devlog/${articleSlug}/`
+	: `${base}devlog/${articleSlug}/`;
+
+const readLabel = isEnglishFallback
+	? "READ IN ENGLISH"
+	: lang === "es"
+		? "LEER ARTÍCULO"
+		: "READ ARTICLE";
 ---
 
 <article
@@ -36,13 +70,11 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		},
 	]}
 >
-	<!-- COVER IMAGE -->
-
 	{coverUrl && (
 		<a
 			href={articleUrl}
 			class="card-image-link"
-			aria-label={`Read ${title}`}
+			aria-label={`${readLabel}: ${title}`}
 			tabindex="-1"
 		>
 			<img
@@ -55,10 +87,7 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		</a>
 	)}
 
-	<!-- ARTICLE CONTENT -->
-
 	<div class="card-content">
-
 		<div class="card-tags">
 			<span class="series-label">
 				{seriesLabel}
@@ -85,21 +114,24 @@ const articleUrl = `${base}devlog/${post.id}/`;
 			{description}
 		</p>
 
+		{isEnglishFallback && (
+			<span class="language-note">
+				Disponible en inglés
+			</span>
+		)}
+
 		<a
 			href={articleUrl}
 			class="read-link"
-			aria-label={`Read article: ${title}`}
+			aria-label={`${readLabel}: ${title}`}
 		>
-			READ ARTICLE
+			{readLabel}
 			<span aria-hidden="true">→</span>
 		</a>
-
 	</div>
 </article>
 
 <style>
-	/* CARD */
-
 	.devlog-card {
 		--card-accent: var(--color-coral);
 
@@ -160,8 +192,6 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		padding: 26px;
 	}
 
-	/* TAGS */
-
 	.card-tags {
 		display: flex;
 		align-items: center;
@@ -192,8 +222,6 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		text-transform: uppercase;
 	}
 
-	/* DATE */
-
 	time {
 		display: block;
 		color: var(--color-text-muted);
@@ -201,8 +229,6 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		font-size: 11px;
 		letter-spacing: 0.2px;
 	}
-
-	/* TITLE */
 
 	h2 {
 		font-family: var(--font-heading);
@@ -224,8 +250,6 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		color: var(--card-accent);
 	}
 
-	/* DESCRIPTION */
-
 	.card-description {
 		color: var(--color-text-muted);
 		font-size: 14px;
@@ -233,7 +257,12 @@ const articleUrl = `${base}devlog/${post.id}/`;
 		margin: 0 0 24px;
 	}
 
-	/* READ ARTICLE */
+	.language-note {
+		color: var(--color-yellow);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		margin: 0 0 18px;
+	}
 
 	.read-link {
 		display: inline-flex;
@@ -281,10 +310,6 @@ const articleUrl = `${base}devlog/${post.id}/`;
 
 		.card-tags {
 			gap: 10px;
-		}
-
-		.card-description {
-			font-size: 14px;
 		}
 	}
 

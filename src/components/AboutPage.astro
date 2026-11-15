@@ -1,0 +1,679 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import type { Language } from "../i18n/ui";
+
+interface Props {
+	lang: Language;
+}
+
+const { lang } = Astro.props;
+const isSpanish = lang === "es";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const prefix = isSpanish ? `${base}es/` : base;
+
+const roadmapUrl = `${prefix}roadmap/`;
+const devlogUrl = `${prefix}devlog/`;
+
+const socialLinks = [
+	{
+		name: "GitHub",
+		handle: "@GuancheKing",
+		url: "https://github.com/GuancheKing",
+	},
+	{
+		name: "itch.io",
+		handle: "GuancheKing",
+		url: "https://itch.io/profile/guancheking",
+	},
+	{
+		name: "Mastodon",
+		handle: "@guancheking",
+		url: "https://mastodon.social/@guancheking",
+	},
+	{
+		name: "Bluesky",
+		handle: "@guancheking.bsky.social",
+		url: "https://bsky.app/profile/guancheking.bsky.social",
+	},
+	{
+		name: "LinkedIn",
+		handle: "Pepo Jiménez",
+		url: "https://www.linkedin.com/in/pepo-j-80a33052/",
+	},
+];
+
+const collaboratorLinks = [
+	{
+		name: "GitHub",
+		handle: "carpinterzeta",
+		url: "https://github.com/carpinterzeta",
+	},
+	{
+		name: "Mastodon",
+		handle: "@ak4rp",
+		url: "https://mastodon.social/@ak4rp",
+	},
+];
+
+const content = {
+	en: {
+		pageTitle: "About | Guanche Warriors",
+		projectLabel: "ABOUT THE PROJECT",
+		projectHeadingStart: "A world inspired by",
+		projectHeadingAccent: "the Canary Islands.",
+		projectIntro:
+			"Guanche Warriors is an independent 2.5D turn-based JRPG inspired by the culture, landscapes and heritage of the Canary Islands.",
+		projectParagraph1:
+			"The project brings together my love for classic JRPGs, storytelling and game development in an original fantasy setting.",
+		projectParagraph2:
+			"It's currently in early development, with the goal of building a playable demo and gradually bringing its world to life.",
+		roadmapLink: "Explore the roadmap",
+
+		developerLabel: "BEHIND THE GAME",
+		developerHeadingStart: "Hi, I'm",
+		developerHeadingAccent: "Pepo.",
+		developerIntroStart: "I'm a",
+		developerIntroStrong: "programmer in the making",
+		developerIntroEnd:
+			", with a background in digital marketing and audiovisual production.",
+		developerParagraph2:
+			"I've always been interested in video games, not only as a player, but also in how they're designed, developed and brought to life. Eventually, I decided to take the leap and learn how to make them myself.",
+		developerParagraph3Start:
+			"These days, I'm studying programming at",
+		developerParagraph3Middle:
+			"and developing games with",
+		developerParagraph3End:
+			". I also work with Python and have hands-on experience with Godot through game jams and collaborative projects.",
+
+		noteLabel: "DEVELOPER NOTE / 001",
+		noteText:
+			"I used to wonder how games worked. Now I spend my days breaking things to find out.",
+		onlineHeading: "Find me online",
+		onlineDescription:
+			"Interested in collaborating, sharing ideas or just talking about game development? Feel free to reach out through any of these platforms.",
+
+		collaborationLabel: "COLLABORATION",
+		collaborationHeading: "Not entirely a solo journey.",
+		collaborationIntro:
+			"Guanche Warriors is my personal project, but I'm not building it entirely on my own. Other developers are also helping bring parts of the game to life.",
+		contributorLabel: "CONTRIBUTOR",
+		contributorDescription:
+			"Contributing to gameplay features and the development of Guanche Warriors.",
+
+		journeyLabel: "THE DEVELOPMENT JOURNEY",
+		journeyHeading: "Learning by building.",
+		journeyParagraph1:
+			"Guanche Warriors is both a creative project and an opportunity to put my programming skills into practice.",
+		journeyParagraph2:
+			"This devlog is where I document the process: what I'm working on, the technical problems I encounter, the mistakes I make and the solutions I find along the way.",
+		journeyParagraph3:
+			"Some posts focus on Guanche Warriors itself, while others explore programming concepts, experiments and lessons from other projects.",
+		journeyLink: "Read the development journal",
+	},
+	es: {
+		pageTitle: "Sobre el proyecto | Guanche Warriors",
+		projectLabel: "SOBRE EL PROYECTO",
+		projectHeadingStart: "Un mundo inspirado en",
+		projectHeadingAccent: "las Islas Canarias.",
+		projectIntro:
+			"Guanche Warriors es un JRPG indie en 2.5D, con combate por turnos, inspirado en la cultura, los paisajes y el patrimonio de las Islas Canarias.",
+		projectParagraph1:
+			"El proyecto reúne mi pasión por los JRPG clásicos, la narrativa y el desarrollo de videojuegos en un universo fantástico.",
+		projectParagraph2:
+			"Actualmente se encuentra en una fase temprana de desarrollo. Mi objetivo es crear una demo jugable y dar vida a su mundo poco a poco.",
+		roadmapLink: "Explorar el roadmap",
+
+		developerLabel: "DETRÁS DEL JUEGO",
+		developerHeadingStart: "Hola, soy",
+		developerHeadingAccent: "Pepo.",
+		developerIntroStart: "Soy un",
+		developerIntroStrong: "programador junior",
+		developerIntroEnd:
+			", con experiencia previa en marketing digital y producción audiovisual.",
+		developerParagraph2:
+			"Siempre me han interesado los videojuegos, no solo jugarlos, sino también saber cómo se hacen, diseñan y desarrollan. Con el tiempo decidí dar el salto y aprender a crearlos por mi cuenta.",
+		developerParagraph3Start:
+			"Ahora mismo estoy estudiando programación en",
+		developerParagraph3Middle:
+			"y desarrollo videojuegos con",
+		developerParagraph3End:
+			". También programo en Python y tengo experiencia práctica con Godot gracias a game jams y proyectos en los que colaboro.",
+
+		noteLabel: "NOTA DEL DESARROLLADOR / 001",
+		noteText:
+			"Antes me preguntaba cómo funcionaban los videojuegos. Ahora me paso el día rompiéndome la cabeza para averiguarlo.",
+		onlineHeading: "Conectemos",
+		onlineDescription:
+			"¿Quieres colaborar, compartir ideas o simplemente hablar de desarrollo de videojuegos? Puedes ponerte en contacto conmigo a través de cualquiera de estas plataformas.",
+
+		collaborationLabel: "COLABORACIÓN",
+		collaborationHeading: "No camino en solitario.",
+		collaborationIntro:
+			"Guanche Warriors es mi proyecto personal, pero no lo estoy desarrollando completamente por mi cuenta. Otros desarrolladores también están ayudando a dar vida a distintas partes del juego.",
+		contributorLabel: "COLABORADOR",
+		contributorDescription:
+			"Colabora en el desarrollo de gameplay y en la evolución de Guanche Warriors.",
+
+		journeyLabel: "EL CAMINO DEL DESARROLLO",
+		journeyHeading: "Aprender creando.",
+		journeyParagraph1:
+			"Guanche Warriors es tanto un proyecto creativo como una oportunidad para poner en práctica mis conocimientos de programación.",
+		journeyParagraph2:
+			"En este devlog documento el proceso: en qué estoy trabajando, los problemas técnicos que encuentro, los errores que cometo y las soluciones que voy descubriendo.",
+		journeyParagraph3:
+			"Algunas publicaciones se centran en Guanche Warriors, mientras que otras exploran conceptos de programación, experimentos y aprendizajes de otros proyectos.",
+		journeyLink: "Leer el diario de desarrollo",
+	},
+};
+
+const t = content[lang];
+---
+
+<MainLayout
+	title={t.pageTitle}
+	lang={lang}
+	hasTranslation={true}
+>
+	<div class="about-page">
+
+		<!-- ABOUT THE PROJECT -->
+
+		<header class="about-header">
+			<span class="eyebrow">
+				{t.projectLabel}
+			</span>
+
+			<h1>
+				{t.projectHeadingStart}{" "}
+				<span class="highlight">
+					{t.projectHeadingAccent}
+				</span>
+			</h1>
+
+			<p class="intro">
+				{t.projectIntro}
+			</p>
+
+			<p>{t.projectParagraph1}</p>
+			<p>{t.projectParagraph2}</p>
+
+			<a href={roadmapUrl} class="text-link">
+				{t.roadmapLink} →
+			</a>
+		</header>
+
+		<!-- BEHIND THE GAME -->
+
+		<section class="about-section developer-section">
+			<span class="eyebrow">
+				{t.developerLabel}
+			</span>
+
+			<h2>
+				{t.developerHeadingStart}{" "}
+				<span class="highlight">
+					{t.developerHeadingAccent}
+				</span>
+			</h2>
+
+			<div class="developer-content">
+				<div class="developer-description">
+					<p>
+						{t.developerIntroStart}{" "}
+						<strong>
+							{t.developerIntroStrong}
+						</strong>
+						{t.developerIntroEnd}
+					</p>
+
+					<p>
+						{t.developerParagraph2}
+					</p>
+
+					<p>
+						{t.developerParagraph3Start}{" "}
+						<strong>42 Madrid</strong>
+						{" "}{t.developerParagraph3Middle}{" "}
+						<strong>{isSpanish ? "Unity y C#" : "Unity and C#"}</strong>
+						{t.developerParagraph3End}
+					</p>
+				</div>
+
+				<aside class="developer-note">
+					<span class="note-label">
+						{t.noteLabel}
+					</span>
+
+					<p>
+						“{t.noteText}”
+					</p>
+
+					<span class="note-signature">
+						@GUANCHEKING
+					</span>
+				</aside>
+			</div>
+
+			<!-- PERSONAL LINKS -->
+
+			<div class="personal-links">
+				<h3>{t.onlineHeading}</h3>
+
+				<p>{t.onlineDescription}</p>
+
+				<div class="profile-links">
+					{socialLinks.map((social) => (
+						<a
+							href={social.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={`${social.name}: ${social.handle}`}
+						>
+							<span class="profile-platform">
+								{social.name}
+							</span>
+
+							<span class="profile-handle">
+								{social.handle}
+							</span>
+
+							<span class="external-arrow" aria-hidden="true">
+								↗
+							</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- COLLABORATION -->
+
+		<section class="about-section collaboration-section">
+			<span class="eyebrow">
+				{t.collaborationLabel}
+			</span>
+
+			<h2>{t.collaborationHeading}</h2>
+
+			<p>{t.collaborationIntro}</p>
+
+			<div class="collaborator-card">
+				<div class="collaborator-info">
+					<span class="collaborator-label">
+						{t.contributorLabel}
+					</span>
+
+					<h3>carpinterzeta</h3>
+
+					<p>{t.contributorDescription}</p>
+				</div>
+
+				<div class="collaborator-links">
+					{collaboratorLinks.map((link) => (
+						<a
+							href={link.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={`${link.name}: ${link.handle}`}
+						>
+							<span>{link.name}</span>
+
+							<span class="profile-handle">
+								{link.handle}
+							</span>
+
+							<span aria-hidden="true">↗</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- DEVELOPMENT JOURNEY -->
+
+		<section class="about-section journey-section">
+			<span class="eyebrow">
+				{t.journeyLabel}
+			</span>
+
+			<h2>{t.journeyHeading}</h2>
+
+			<p>{t.journeyParagraph1}</p>
+			<p>{t.journeyParagraph2}</p>
+			<p>{t.journeyParagraph3}</p>
+
+			<a href={devlogUrl} class="text-link">
+				{t.journeyLink} →
+			</a>
+		</section>
+
+	</div>
+</MainLayout>
+
+<style>
+	/* PAGE LAYOUT */
+
+	.about-page {
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 90px 40px 110px;
+	}
+
+	.eyebrow {
+		display: block;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		line-height: 1.6;
+	}
+
+	.highlight {
+		color: var(--color-coral);
+	}
+
+	/* ABOUT THE PROJECT */
+
+	.about-header {
+		max-width: 850px;
+		margin-bottom: 100px;
+	}
+
+	.about-header h1 {
+		font-size: clamp(42px, 6vw, 72px);
+		line-height: 1.1;
+		letter-spacing: -2px;
+		margin: 28px 0 32px;
+	}
+
+	.about-header .intro {
+		color: var(--color-text);
+		font-size: 21px;
+		font-weight: 500;
+		line-height: 1.6;
+	}
+
+	.about-header p {
+		max-width: 720px;
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.9;
+		margin: 0 0 22px;
+	}
+
+	.text-link {
+		display: inline-block;
+		margin-top: 16px;
+		color: var(--color-coral);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.text-link:hover,
+	.text-link:focus-visible {
+		color: var(--color-turquoise);
+	}
+
+	/* SHARED SECTIONS */
+
+	.about-section {
+		border-top: 1px solid var(--color-border);
+		padding-top: 70px;
+		margin-bottom: 100px;
+	}
+
+	.about-section h2 {
+		color: var(--color-text);
+		font-size: clamp(30px, 4vw, 42px);
+		letter-spacing: -1px;
+		line-height: 1.2;
+		margin: 16px 0 30px;
+	}
+
+	.about-section > p {
+		max-width: 720px;
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.9;
+		margin: 0 0 22px;
+	}
+
+	/* BEHIND THE GAME */
+
+	.developer-content {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: 48px;
+		align-items: start;
+	}
+
+	.developer-description p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.9;
+		margin: 0 0 24px;
+	}
+
+	.developer-description strong {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.developer-note {
+		background: var(--color-surface);
+		border-left: 3px solid var(--color-coral);
+		padding: 28px;
+	}
+
+	.note-label,
+	.note-signature {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 1px;
+	}
+
+	.note-label {
+		color: var(--color-yellow);
+	}
+
+	.developer-note p {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 24px;
+		font-weight: 600;
+		line-height: 1.4;
+		margin: 24px 0;
+	}
+
+	.note-signature {
+		color: var(--color-turquoise);
+	}
+
+	/* PERSONAL LINKS */
+
+	.personal-links {
+		margin-top: 55px;
+	}
+
+	.personal-links h3 {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 23px;
+		margin: 0 0 10px;
+	}
+
+	.personal-links > p {
+		max-width: 690px;
+		color: var(--color-text-muted);
+		font-size: 15px;
+		line-height: 1.8;
+		margin: 0;
+	}
+
+	.profile-links {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: 32px;
+		row-gap: 18px;
+		margin-top: 26px;
+	}
+
+	.profile-links a,
+	.collaborator-links a {
+		display: inline-flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		color: var(--color-coral);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.profile-links a:hover,
+	.collaborator-links a:hover {
+		color: var(--color-turquoise);
+	}
+
+	.profile-links a:focus-visible,
+	.collaborator-links a:focus-visible {
+		outline: 2px solid var(--color-turquoise);
+		outline-offset: 4px;
+	}
+
+	.profile-handle {
+		color: var(--color-text-muted);
+		overflow-wrap: anywhere;
+	}
+
+	.external-arrow {
+		font-size: 15px;
+		line-height: 1;
+	}
+
+	/* COLLABORATION */
+
+	.collaborator-card {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 30px;
+		align-items: center;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 30px;
+		margin-top: 30px;
+	}
+
+	.collaborator-label {
+		color: var(--color-yellow);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 1px;
+	}
+
+	.collaborator-info h3 {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 26px;
+		margin: 14px 0;
+	}
+
+	.collaborator-info p {
+		color: var(--color-text-muted);
+		font-size: 15px;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.collaborator-links {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	/* RESPONSIVE */
+
+	@media (max-width: 700px) {
+		.developer-content {
+			grid-template-columns: 1fr;
+			gap: 20px;
+		}
+
+		.collaborator-card {
+			grid-template-columns: 1fr;
+			gap: 24px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.about-page {
+			padding: 60px 20px 80px;
+		}
+
+		.about-header {
+			margin-bottom: 70px;
+		}
+
+		.eyebrow {
+			font-size: 10px;
+			letter-spacing: 1.5px;
+		}
+
+		.about-header h1 {
+			font-size: clamp(38px, 9vw, 52px);
+			letter-spacing: -1.5px;
+			margin: 24px 0;
+		}
+
+		.about-header .intro {
+			font-size: 18px;
+		}
+
+		.about-header p,
+		.about-section > p,
+		.developer-description p {
+			font-size: 15px;
+		}
+
+		.about-section {
+			padding-top: 50px;
+			margin-bottom: 70px;
+		}
+
+		.developer-note {
+			padding: 24px;
+		}
+
+		.personal-links {
+			margin-top: 35px;
+		}
+
+		.profile-links {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 18px;
+		}
+
+		.collaborator-card {
+			padding: 24px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.text-link,
+		.profile-links a,
+		.collaborator-links a {
+			transition: none;
+		}
+	}
+</style>

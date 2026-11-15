@@ -1,216 +1,287 @@
 
 ---
-const base = import.meta.env.BASE_URL;
-const currentYear = new Date().getFullYear();
+import type { Language } from "../i18n/ui";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname;
+
+const relativePath = currentPath.startsWith(base)
+	? currentPath.slice(base.length)
+	: currentPath.replace(/^\/+/, "");
+
+const lang: Language =
+	relativePath === "es" || relativePath.startsWith("es/")
+		? "es"
+		: "en";
+
+const prefix = lang === "es" ? `${base}es/` : base;
+
+const content = {
+	en: {
+		description:
+			"An indie turn-based JRPG inspired by the Canary Islands. Built with curiosity, creativity and a lot of debugging.",
+		navigation: "EXPLORE",
+		home: "Home",
+		devlog: "Devlog",
+		about: "About",
+		roadmap: "Roadmap",
+		follow: "FOLLOW THE DEVELOPMENT",
+		articlesNote: "Devlog articles are published in English.",
+		copyright: "An independent game development project.",
+	},
+	es: {
+		description:
+			"Un JRPG indie de combate por turnos inspirado en las Islas Canarias. Desarrollado con curiosidad, creatividad y muchas sesiones de debugging.",
+		navigation: "EXPLORAR",
+		home: "Inicio",
+		devlog: "Devlog",
+		about: "Sobre el proyecto",
+		roadmap: "Roadmap",
+		follow: "SIGUE EL DESARROLLO",
+		articlesNote: "Los artículos del Devlog están publicados en inglés.",
+		copyright: "Un proyecto independiente de desarrollo de videojuegos.",
+	},
+};
+
+const t = content[lang];
+
+const navigation = [
+	{ label: t.home, href: prefix },
+	{ label: t.devlog, href: `${prefix}devlog/` },
+	{ label: t.about, href: `${prefix}about/` },
+	{ label: t.roadmap, href: `${prefix}roadmap/` },
+];
+
+const socialLinks = [
+	{
+		label: "GitHub",
+		url: "https://github.com/GuancheKing",
+	},
+	{
+		label: "itch.io",
+		url: "https://itch.io/profile/guancheking",
+	},
+	{
+		label: "Mastodon",
+		url: "https://mastodon.social/@guancheking",
+	},
+	{
+		label: "Bluesky",
+		url: "https://bsky.app/profile/guancheking.bsky.social",
+	},
+];
 ---
 
 <footer class="site-footer">
-	<div class="footer-inner">
+	<div class="footer-container">
+		<div class="footer-grid">
 
-		<div class="footer-brand">
-			<a
-				href={base}
-				class="brand-link"
-				aria-label="Guanche Warriors — Back to home"
-			>
-				<img
-					src={`${base}images/guancheking-logo.svg`}
-					alt=""
-					width="42"
-					height="42"
-				/>
+			<div class="footer-brand">
+				<a href={prefix} class="brand-title">
+					Guanche<span>Warriors.</span>
+				</a>
 
-				<div class="brand-text">
-					<span class="brand-name">
-						GUANCHE WARRIORS
-					</span>
+				<p>{t.description}</p>
+			</div>
 
-					<span class="brand-subtitle">
-						DEVELOPMENT JOURNAL
-					</span>
+			<div class="footer-column">
+				<h2>{t.navigation}</h2>
+
+				<nav
+					aria-label={lang === "es"
+						? "Navegación del pie de página"
+						: "Footer navigation"}
+				>
+					{navigation.map((link) => (
+						<a href={link.href}>
+							{link.label}
+						</a>
+					))}
+				</nav>
+			</div>
+
+			<div class="footer-column">
+				<h2>{t.follow}</h2>
+
+				<div class="social-links">
+					{socialLinks.map((link) => (
+						<a
+							href={link.url}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{link.label}
+							<span aria-hidden="true">↗</span>
+						</a>
+					))}
 				</div>
-			</a>
+			</div>
 
-			<p>
-				An independent JRPG inspired by the Canary Islands.
-			</p>
 		</div>
 
 		<div class="footer-bottom">
-			<span class="copyright">
-				© {currentYear} Guanche Warriors
-			</span>
+			<div class="footer-bottom-left">
+				<span>
+					© {new Date().getFullYear()} Guanche Warriors
+				</span>
 
-			<div class="footer-links">
-				<a href={`${base}about/`}>
-					About
-				</a>
-
-				<a
-					href="https://github.com/GuancheKing"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					GitHub ↗
-				</a>
+				<span>{t.copyright}</span>
 			</div>
-		</div>
 
+			<span class="footer-language-note">
+				{t.articlesNote}
+			</span>
+		</div>
 	</div>
 </footer>
 
 <style>
-	/* FOOTER */
-
 	.site-footer {
 		border-top: 1px solid var(--color-border);
-		background: var(--color-background);
-		padding: 50px 40px 30px;
+		background: var(--color-surface);
+		padding: 65px 40px 28px;
 	}
 
-	.footer-inner {
+	.footer-container {
 		max-width: 1100px;
 		margin: 0 auto;
 	}
 
-	/* BRAND */
-
-	.footer-brand {
-		margin-bottom: 45px;
+	.footer-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+		gap: 55px;
+		padding-bottom: 65px;
 	}
 
-	.brand-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 14px;
+	.brand-title {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 26px;
+		font-weight: 700;
+		letter-spacing: -1px;
 		text-decoration: none;
 	}
 
-	.brand-link img {
-		display: block;
-		width: 42px;
-		height: 42px;
-		object-fit: contain;
-		flex-shrink: 0;
-	}
-
-	.brand-text {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
-	}
-
-	.brand-name {
-		color: var(--color-text);
-		font-family: var(--font-heading);
-		font-size: 16px;
-		font-weight: 700;
-		letter-spacing: 0.6px;
-		line-height: 1.2;
-		transition: color 0.2s ease;
-	}
-
-	.brand-link:hover .brand-name {
+	.brand-title span {
 		color: var(--color-coral);
-	}
-
-	.brand-subtitle {
-		color: var(--color-turquoise);
-		font-family: var(--font-mono);
-		font-size: 10px;
-		font-weight: 500;
-		letter-spacing: 1.5px;
 	}
 
 	.footer-brand p {
-		max-width: 420px;
+		max-width: 345px;
 		color: var(--color-text-muted);
 		font-size: 14px;
-		line-height: 1.7;
-		margin: 22px 0 0;
+		line-height: 1.9;
+		margin: 18px 0 0;
 	}
 
-	/* FOOTER BOTTOM */
-
-	.footer-bottom {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 20px;
-		border-top: 1px solid var(--color-border);
-		padding-top: 25px;
-	}
-
-	.copyright {
-		color: var(--color-text-muted);
+	.footer-column h2 {
+		color: var(--color-turquoise);
 		font-family: var(--font-mono);
 		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+		margin: 8px 0 22px;
 	}
 
-	.footer-links {
+	.footer-column nav,
+	.social-links {
 		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 25px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 15px;
 	}
 
-	.footer-links a {
+	.footer-column a {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
 		color: var(--color-text-muted);
-		font-family: var(--font-mono);
-		font-size: 11px;
+		font-size: 14px;
 		text-decoration: none;
 		transition: color 0.2s ease;
 	}
 
-	.footer-links a:hover {
+	.footer-column a:hover,
+	.footer-column a:focus-visible {
 		color: var(--color-coral);
 	}
 
-	.brand-link:focus-visible,
-	.footer-links a:focus-visible {
-		outline: 2px solid var(--color-turquoise);
-		outline-offset: 5px;
+	.social-links span {
+		font-size: 13px;
 	}
 
-	/* RESPONSIVE */
+	.footer-bottom {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 16px;
+		border-top: 1px solid var(--color-border);
+		padding-top: 24px;
+	}
 
-	@media (max-width: 600px) {
-		.site-footer {
-			padding: 40px 20px 25px;
+	.footer-bottom-left {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 22px;
+	}
+
+	.footer-bottom span {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		line-height: 1.7;
+	}
+
+	.footer-language-note {
+		text-align: right;
+	}
+
+	@media (max-width: 700px) {
+		.footer-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 36px;
 		}
 
 		.footer-brand {
-			margin-bottom: 35px;
+			grid-column: 1 / -1;
 		}
 
-		.brand-link img {
-			width: 38px;
-			height: 38px;
+		.footer-language-note {
+			text-align: left;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.site-footer {
+			padding: 48px 20px 24px;
 		}
 
-		.brand-name {
-			font-size: 14px;
+		.footer-grid {
+			gap: 30px 20px;
+			padding-bottom: 45px;
 		}
 
-		.brand-subtitle {
-			font-size: 9px;
+		.brand-title {
+			font-size: 24px;
 		}
 
-		.footer-brand p {
+		.footer-column a {
 			font-size: 13px;
 		}
 
-		.footer-bottom {
-			align-items: flex-start;
+		.footer-bottom-left {
 			flex-direction: column;
-			gap: 16px;
+			gap: 3px;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.brand-name,
-		.footer-links a {
+		.footer-column a {
 			transition: none;
 		}
 	}

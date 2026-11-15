@@ -1,28 +1,101 @@
+
 ---
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import "../styles/global.css";
 
-const { title = "Guanche Warriors Devlog" } = Astro.props;
+import type { Language } from "../i18n/ui";
+
+interface Props {
+	title?: string;
+	lang?: Language;
+	hasTranslation?: boolean;
+}
+
+const {
+	title = "Guanche Warriors Devlog",
+	lang = "en",
+	hasTranslation = false,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname;
+
+let relativePath = currentPath.startsWith(base)
+	? currentPath.slice(base.length)
+	: currentPath.replace(/^\/+/, "");
+
+relativePath = relativePath.replace(/^es\/?/, "");
+
+const englishUrl = new URL(
+	`${base}${relativePath}`,
+	Astro.site
+);
+
+const spanishUrl = new URL(
+	`${base}es/${relativePath}`,
+	Astro.site
+);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1"
+		/>
+
 		<meta name="generator" content={Astro.generator} />
+
 		<title>{title}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
-            rel="stylesheet"
-        />
+
+		{hasTranslation && (
+			<>
+				<link
+					rel="alternate"
+					hreflang="en"
+					href={englishUrl.href}
+				/>
+
+				<link
+					rel="alternate"
+					hreflang="es"
+					href={spanishUrl.href}
+				/>
+
+				<link
+					rel="alternate"
+					hreflang="x-default"
+					href={englishUrl.href}
+				/>
+			</>
+		)}
+
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+
+		<link
+			href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 
 	<body>
-		<SiteHeader />
+		<SiteHeader lang={lang} />
 
 		<main>
 			<slot />

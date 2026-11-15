@@ -1,0 +1,100 @@
+
+---
+import type { Language } from "../i18n/ui";
+
+interface Props {
+	lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname;
+
+let relativePath = currentPath.startsWith(base)
+	? currentPath.slice(base.length)
+	: currentPath.replace(/^\/+/, "");
+
+relativePath = relativePath.replace(/^es\/?/, "");
+
+const englishUrl = `${base}${relativePath}`;
+const spanishUrl = `${base}es/${relativePath}`;
+---
+
+<nav
+	class="language-switcher"
+	aria-label={lang === "es" ? "Idioma" : "Language"}
+>
+	<a
+		href={englishUrl}
+		lang="en"
+		hreflang="en"
+		aria-current={lang === "en" ? "page" : undefined}
+		class:list={[
+			"language-link",
+			{ active: lang === "en" },
+		]}
+	>
+		EN
+	</a>
+
+	<span class="separator" aria-hidden="true">/</span>
+
+	<a
+		href={spanishUrl}
+		lang="es"
+		hreflang="es"
+		aria-current={lang === "es" ? "page" : undefined}
+		class:list={[
+			"language-link",
+			{ active: lang === "es" },
+		]}
+	>
+		ES
+	</a>
+</nav>
+
+<style>
+	.language-switcher {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		white-space: nowrap;
+	}
+
+	.language-link {
+		color: var(--color-text-muted);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.language-link.active {
+		color: var(--color-coral);
+		font-weight: 500;
+	}
+
+	.language-link:hover,
+	.language-link:focus-visible {
+		color: var(--color-turquoise);
+	}
+
+	.separator {
+		color: var(--color-border);
+	}
+
+	.language-link:focus-visible {
+		outline: 2px solid var(--color-turquoise);
+		outline-offset: 4px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.language-link {
+			transition: none;
+		}
+	}
+</style>

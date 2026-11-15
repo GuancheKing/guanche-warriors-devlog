@@ -1,11 +1,86 @@
 
 ---
-const base = import.meta.env.BASE_URL;
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { useTranslations, type Language } from "../i18n/ui";
+
+interface Props {
+	lang?: Language;
+}
+
+const { lang = "en" } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const t = useTranslations(lang);
+
+const currentPath = Astro.url.pathname;
+
+const relativePath = currentPath.startsWith(base)
+	? currentPath.slice(base.length)
+	: currentPath.replace(/^\/+/, "");
+
+const normalizedPath = relativePath
+	.replace(/^es\/?/, "")
+	.replace(/\/$/, "");
+
+const translatedPages = [
+	"",
+	"about",
+	"roadmap",
+	"devlog",
+];
+
+const hasTranslation = translatedPages.includes(
+	normalizedPath
+);
+
+const homeUrl = lang === "es"
+	? `${base}es/`
+	: base;
+
+const aboutUrl = lang === "es"
+	? `${base}es/about/`
+	: `${base}about/`;
+
+const roadmapUrl = lang === "es"
+	? `${base}es/roadmap/`
+	: `${base}roadmap/`;
+
+const devlogUrl = lang === "es"
+	? `${base}es/devlog/`
+	: `${base}devlog/`;
+
+const links = [
+	{
+		label: t("nav.home"),
+		href: homeUrl,
+	},
+	{
+		label: t("nav.devlog"),
+		href: devlogUrl,
+	},
+	{
+		label: t("nav.about"),
+		href: aboutUrl,
+	},
+	{
+		label: t("nav.roadmap"),
+		href: roadmapUrl,
+	},
+];
 ---
 
 <header class="site-header">
 	<div class="header-container">
-		<a href={base} class="brand">
+		<a
+			href={homeUrl}
+			class="brand"
+			aria-label={lang === "es"
+				? "Guanche Warriors — Ir al inicio"
+				: "Guanche Warriors — Back to home"}
+		>
 			<img
 				src={`${base}images/guancheking-logo.svg`}
 				alt=""
@@ -15,17 +90,34 @@ const base = import.meta.env.BASE_URL;
 			/>
 
 			<div class="brand-text">
-				<span class="brand-name">Guanche Warriors</span>
-				<span class="brand-subtitle">DEVELOPMENT JOURNAL</span>
+				<span class="brand-name">
+					Guanche Warriors
+				</span>
+
+				<span class="brand-subtitle">
+					{t("site.subtitle")}
+				</span>
 			</div>
 		</a>
 
-		<nav aria-label="Main navigation">
-			<a href={base}>Home</a>
-			<a href={`${base}devlog/`}>Devlog</a>
-			<a href={`${base}about/`}>About</a>
-			<a href={`${base}roadmap/`}>Roadmap</a>
-		</nav>
+		<div class="header-right">
+			<nav
+				class="main-nav"
+				aria-label={lang === "es"
+					? "Navegación principal"
+					: "Main navigation"}
+			>
+				{links.map((link) => (
+					<a href={link.href}>
+						{link.label}
+					</a>
+				))}
+			</nav>
+
+			{hasTranslation && (
+				<LanguageSwitcher lang={lang} />
+			)}
+		</div>
 	</div>
 </header>
 
@@ -85,21 +177,39 @@ const base = import.meta.env.BASE_URL;
 		letter-spacing: 1px;
 	}
 
-	nav {
+	.header-right {
+		display: flex;
+		align-items: center;
+		gap: 28px;
+	}
+
+	.main-nav {
 		display: flex;
 		gap: 24px;
 	}
 
-	nav a {
+	.main-nav a {
 		color: var(--color-text);
 		text-decoration: none;
 		font-size: 14px;
 		transition: color 0.2s ease;
 	}
 
-	nav a:hover,
-	nav a:focus-visible {
+	.main-nav a:hover,
+	.main-nav a:focus-visible {
 		color: var(--color-coral);
+	}
+
+	@media (max-width: 850px) {
+		.header-container {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.header-right {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
 	}
 
 	@media (max-width: 600px) {
@@ -117,10 +227,25 @@ const base = import.meta.env.BASE_URL;
 			height: 42px;
 		}
 
-		nav {
+		.brand-name {
+			font-size: 18px;
+		}
+
+		.header-right {
+			gap: 18px;
+		}
+
+		.main-nav {
 			flex-wrap: wrap;
 			justify-content: center;
 			gap: 16px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.brand-logo,
+		.main-nav a {
+			transition: none;
 		}
 	}
 </style>

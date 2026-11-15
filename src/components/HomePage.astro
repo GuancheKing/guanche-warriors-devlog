@@ -1,0 +1,442 @@
+
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import DevlogCard from "./DevlogCard.astro";
+
+import {
+	useTranslations,
+	type Language,
+} from "../i18n/ui";
+
+interface Props {
+	lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const t = useTranslations(lang);
+
+const prefix = lang === "es"
+	? `${base}es/`
+	: base;
+
+const aboutUrl = `${prefix}about/`;
+const devlogUrl = `${prefix}devlog/`;
+
+const latestPosts = (await getCollection(
+	"devlog",
+	({ data, id }) =>
+		data.draft !== true &&
+		!id.startsWith("es/")
+))
+	.sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+	)
+	.slice(0, 3);
+
+const pageTitle = lang === "es"
+	? "Guanche Warriors | Diario de desarrollo"
+	: "Guanche Warriors | Development Journal";
+---
+
+<MainLayout
+	title={pageTitle}
+	lang={lang}
+	hasTranslation={true}
+>
+	<section class="hero">
+		<div class="hero-content">
+			<span class="eyebrow">
+				{t("home.eyebrow")}
+			</span>
+
+			<h1>
+				<span class="hero-line">Guanche</span>
+				<span class="hero-line hero-highlight">
+					Warriors.
+				</span>
+			</h1>
+
+			<p class="hero-description">
+				{t("home.description")}
+			</p>
+
+			<div class="hero-actions">
+				<a href="#latest" class="button-primary">
+					{t("home.readDevlog")}
+				</a>
+
+				<a href="#developer" class="button-secondary">
+					{t("home.behindProject")}
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section id="developer" class="developer-section">
+		<div class="developer-card">
+			<div class="developer-meta">
+				<span class="developer-label">
+					{t("home.developerLabel")}
+				</span>
+
+				<span class="developer-status">
+					@GUANCHEKING
+				</span>
+			</div>
+
+			<h2>
+				{t("home.developerTitle")}
+			</h2>
+
+			<p>
+				{t("home.developerDescription")}
+			</p>
+
+			<a href={aboutUrl} class="developer-link">
+				{t("home.meetDeveloper")} →
+			</a>
+		</div>
+	</section>
+
+	<section id="latest" class="latest-section">
+		<div class="section-heading">
+			<span class="section-eyebrow">
+				{t("home.journalLabel")}
+			</span>
+
+			<h2>
+				{t("home.recentTitle")}<span
+					class="heading-accent"
+				>.</span>
+			</h2>
+
+			<p>
+				{t("home.recentDescription")}
+			</p>
+		</div>
+
+		<div class="latest-grid">
+			{latestPosts.map((post) => (
+				<DevlogCard
+					post={post}
+					lang={lang}
+				/>
+			))}
+		</div>
+
+		<a href={devlogUrl} class="all-posts">
+			{t("home.allPosts")} →
+		</a>
+
+		{lang === "es" && (
+			<p class="translation-note">
+				Los artículos del Devlog están publicados en inglés.
+			</p>
+		)}
+	</section>
+</MainLayout>
+
+<style>
+	/* HERO */
+
+	.hero {
+		display: flex;
+		align-items: center;
+		padding: 90px 40px 50px;
+	}
+
+	.hero-content {
+		width: 100%;
+		max-width: 850px;
+		margin: 0 auto;
+	}
+
+	.eyebrow,
+	.section-eyebrow {
+		display: block;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		line-height: 1.6;
+	}
+
+	.hero h1 {
+		font-size: clamp(56px, 8vw, 100px);
+		font-weight: 700;
+		letter-spacing: -3px;
+		line-height: 1.05;
+		margin: 28px 0;
+	}
+
+	.hero-line {
+		display: block;
+	}
+
+	.hero-highlight {
+		color: var(--color-coral);
+	}
+
+	.hero-description {
+		max-width: 650px;
+		color: var(--color-text-muted);
+		font-size: 17px;
+		line-height: 1.8;
+		margin: 0;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		margin-top: 36px;
+	}
+
+	.hero-actions a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 14px 22px;
+		border-radius: 4px;
+		font-size: 14px;
+		font-weight: 600;
+		text-decoration: none;
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.hero-actions a:hover {
+		transform: translateY(-2px);
+	}
+
+	.button-primary {
+		background: var(--color-coral);
+		color: var(--color-background);
+	}
+
+	.button-primary:hover {
+		background: var(--color-yellow);
+	}
+
+	.button-secondary {
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
+	}
+
+	.button-secondary:hover {
+		border-color: var(--color-turquoise);
+	}
+
+	/* SHARED SECTION LAYOUT */
+
+	.developer-section,
+	.latest-section {
+		max-width: 850px;
+		margin: 0 auto;
+		padding: 50px 40px;
+	}
+
+	/* BEHIND THE PROJECT */
+
+	.developer-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 36px;
+	}
+
+	.developer-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-bottom: 28px;
+	}
+
+	.developer-label,
+	.developer-status {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 1px;
+	}
+
+	.developer-label {
+		color: var(--color-yellow);
+	}
+
+	.developer-status {
+		color: var(--color-turquoise);
+	}
+
+	.developer-card h2 {
+		color: var(--color-text);
+		font-size: clamp(24px, 3vw, 32px);
+		line-height: 1.25;
+		margin: 0 0 20px;
+	}
+
+	.developer-card p {
+		max-width: 650px;
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.8;
+		margin: 0 0 28px;
+	}
+
+	.developer-link {
+		color: var(--color-coral);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.developer-link:hover {
+		text-decoration: underline;
+	}
+
+	/* RECENT WRITING */
+
+	.latest-section {
+		padding-top: 65px;
+		padding-bottom: 90px;
+	}
+
+	.section-heading h2 {
+		color: var(--color-text);
+		font-size: clamp(28px, 4vw, 36px);
+		letter-spacing: -1px;
+		margin: 12px 0 16px;
+	}
+
+	.heading-accent {
+		color: var(--color-coral);
+	}
+
+	.section-heading p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.latest-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		margin-top: 36px;
+		margin-bottom: 24px;
+	}
+
+	.all-posts {
+		display: inline-block;
+		margin-top: 16px;
+		color: var(--color-coral);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 0.5px;
+		text-decoration: none;
+	}
+
+	.all-posts:hover {
+		color: var(--color-turquoise);
+	}
+
+	.translation-note {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		line-height: 1.8;
+		margin: 24px 0 0;
+	}
+
+	/* RESPONSIVE */
+
+	@media (max-width: 600px) {
+		.hero {
+			padding: 65px 20px 35px;
+		}
+
+		.eyebrow,
+		.section-eyebrow {
+			font-size: 10px;
+			letter-spacing: 1.5px;
+		}
+
+		.hero h1 {
+			font-size: clamp(48px, 12vw, 64px);
+			letter-spacing: -2px;
+			margin: 24px 0;
+		}
+
+		.hero-description {
+			font-size: 15px;
+		}
+
+		.hero-actions {
+			gap: 12px;
+			margin-top: 28px;
+		}
+
+		.hero-actions a {
+			padding: 13px 18px;
+		}
+
+		.developer-section,
+		.latest-section {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		.developer-section {
+			padding-top: 35px;
+			padding-bottom: 35px;
+		}
+
+		.developer-card {
+			padding: 24px;
+		}
+
+		.developer-meta {
+			margin-bottom: 20px;
+		}
+
+		.developer-card p {
+			font-size: 15px;
+		}
+
+		.latest-section {
+			padding-top: 45px;
+			padding-bottom: 60px;
+		}
+
+		.section-heading p {
+			font-size: 15px;
+		}
+
+		.latest-grid {
+			margin-top: 28px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-actions a {
+			transition: none;
+		}
+
+		.hero-actions a:hover {
+			transform: none;
+		}
+	}
+</style>
