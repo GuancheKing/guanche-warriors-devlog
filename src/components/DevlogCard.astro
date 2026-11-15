@@ -27,9 +27,9 @@ const formattedDate = pubDate.toLocaleDateString("en-GB", {
 
 		<p>{description}</p>
 
-		<a href={`/devlog/${post.id}/`}>
-			READ ARTICLE →
-		</a>
+<a href={`${import.meta.env.BASE_URL}devlog/${post.id}/`}>
+	READ ARTICLE →
+</a>
 	</div>
 </article>
 

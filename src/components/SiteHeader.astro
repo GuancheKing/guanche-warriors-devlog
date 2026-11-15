@@ -1,3 +1,6 @@
+---
+const base = import.meta.env.BASE_URL;
+---
 
 <header class="site-header">
 	<div class="header-container">
@@ -6,12 +9,12 @@
 			<span class="brand-subtitle">DEVELOPMENT JOURNAL</span>
 		</a>
 
-		<nav aria-label="Main navigation">
-			<a href="/">Home</a>
-			<a href="/devlog/">Devlog</a>
-			<a href="/about/">About</a>
-			<a href="/roadmap/">Roadmap</a>
-		</nav>
+<nav aria-label="Main navigation">
+	<a href={base}>Home</a>
+	<a href={`${base}devlog/`}>Devlog</a>
+	<a href={`${base}about/`}>About</a>
+	<a href={`${base}roadmap/`}>Roadmap</a>
+</nav>
 	</div>
 </header>
 
