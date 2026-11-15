@@ -1,4 +1,3 @@
-
 # Guanche Warriors — Development Journal
 
 Guanche Warriors is an independent 2.5D turn-based JRPG inspired by the Canary Islands, currently in development with Unity.
@@ -34,16 +33,16 @@ The intention is to document how things are built, not just showcase finished re
 
 The website is built with the following technologies:
 
-| Technology | Purpose |
-|------------|---------|
-| Astro | Static site generation and component architecture |
-| JavaScript | Data processing and page logic |
-| HTML | Page structure and semantic markup |
-| CSS | Styling and responsive design |
-| Markdown | Articles and documentation |
-| Git | Version control |
-| GitHub Pages | Static website hosting |
-| GitHub Actions | Automated builds and deployment |
+| Technology     | Purpose                                           |
+| -------------- | ------------------------------------------------- |
+| Astro          | Static site generation and component architecture |
+| JavaScript     | Data processing and page logic                    |
+| HTML           | Page structure and semantic markup                |
+| CSS            | Styling and responsive design                     |
+| Markdown       | Articles and documentation                        |
+| Git            | Version control                                   |
+| GitHub Pages   | Static website hosting                            |
+| GitHub Actions | Automated builds and deployment                   |
 
 ## Website Features
 
@@ -171,7 +170,7 @@ Planned improvements include:
 
 ## About the Developer
 
-I'm **Pepo Jiménez**, an aspiring game programmer with a background in digital marketing and audiovisual production.
+I'm **Pepo Jiménez**, a game programmer in the making with a background in digital marketing and audiovisual production.
 
 I'm currently focused on game programming, combining formal training with hands-on development, collaborative projects, and game jams.
 
@@ -181,4 +180,4 @@ Guanche Warriors is both a personal creative project and an opportunity to apply
 
 ---
 
-*Guanche Warriors — Building a world, one turn at a time.*
+_Guanche Warriors — Building a world, one turn at a time._
