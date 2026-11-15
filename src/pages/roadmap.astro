@@ -2,262 +2,777 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 
+const base = import.meta.env.BASE_URL;
+
 const milestones = [
 	{
 		title: "Project Foundations",
 		description:
 			"Initial Unity project setup, development environment and core architecture.",
-		status: "completed"
+		status: "completed",
+		deliverables: [
+			"Unity project setup and configuration",
+			"Initial project structure",
+			"Development workflow and version control",
+		],
+		posts: [],
 	},
 	{
-		title: "Exploration Systems",
+		title: "Exploration & Interaction",
 		description:
 			"Foundational character movement, interactions and exploration mechanics.",
-		status: "completed"
+		status: "completed",
+		deliverables: [
+			"Character movement and sprint",
+			"NPC interactions and dialogue",
+			"Interaction prompts",
+			"Character facing during conversations",
+		],
+		posts: [
+			{
+				title: "Bringing the World to Life",
+				slug: "character-movement",
+			},
+		],
 	},
 	{
 		title: "Gameplay Development",
 		description:
 			"Expanding the core gameplay systems and refining the player experience.",
-		status: "in-progress"
+		status: "in-progress",
+		deliverables: [
+			"Developing foundational gameplay systems",
+			"Testing and refining player interactions",
+			"Iterating on gameplay prototypes",
+		],
+		posts: [],
 	},
 	{
 		title: "Visual Development",
 		description:
 			"Exploring the artistic direction, environments and visual identity.",
-		status: "in-progress"
+		status: "in-progress",
+		deliverables: [
+			"Defining the visual direction",
+			"Exploring character and environment art",
+			"Testing visual presentation in Unity",
+		],
+		posts: [],
 	},
 	{
 		title: "Core Gameplay Integration",
 		description:
 			"Bringing the main gameplay systems together into a cohesive experience.",
-		status: "planned"
+		status: "planned",
+		deliverables: [],
+		posts: [],
 	},
 	{
 		title: "Playable Demo",
 		description:
 			"Preparing a first playable experience to showcase the project's vision.",
-		status: "planned"
-	}
+		status: "planned",
+		deliverables: [],
+		posts: [],
+	},
 ];
 
-const completedMilestones = milestones.filter(
+const statusLabels = {
+	completed: "Completed",
+	"in-progress": "In Progress",
+	planned: "Planned",
+};
+
+const completedCount = milestones.filter(
 	(milestone) => milestone.status === "completed"
-);
+).length;
 
-const inProgressMilestones = milestones.filter(
+const activeCount = milestones.filter(
 	(milestone) => milestone.status === "in-progress"
-);
-
-const plannedMilestones = milestones.filter(
-	(milestone) => milestone.status === "planned"
-);
+).length;
 ---
 
 <MainLayout title="Roadmap | Guanche Warriors">
-	<div class="roadmap-page">
+	<main class="roadmap-page">
+
+		<!-- HEADER -->
 
 		<header class="roadmap-header">
 			<span class="eyebrow">DEVELOPMENT PROGRESS</span>
 
-			<h1>Development Roadmap</h1>
+			<h1>
+				Development{" "}
+				<span class="highlight">Roadmap.</span>
+			</h1>
 
-			<p>
-				Follow the journey of Guanche Warriors,
-				from its early foundations to a playable JRPG demo.
+			<p class="roadmap-intro">
+				From the first lines of code to a playable JRPG.
+				Here's a look at how Guanche Warriors is progressing.
 			</p>
 
 			<p class="roadmap-note">
-				This roadmap provides a high-level overview
-				of development progress. Features and priorities
-				may evolve throughout production.
+				This is a high-level overview of the project.
+				Milestones may change as development evolves.
 			</p>
 		</header>
 
-		<section class="roadmap-section">
-			<h2>Completed Milestones</h2>
+		<!-- PROGRESS SUMMARY -->
 
-			<div class="milestone-list">
-				{completedMilestones.map((milestone) => (
-					<article class="milestone-card">
-						<span class="status completed">
-							Completed
-						</span>
+		<div class="progress-summary">
+			<div class="summary-item">
+				<span class="summary-number completed-number">
+					{completedCount.toString().padStart(2, "0")}
+				</span>
 
-						<h3>{milestone.title}</h3>
-
-						<p>{milestone.description}</p>
-					</article>
-				))}
+				<span class="summary-label">COMPLETED</span>
 			</div>
+
+			<div class="summary-item">
+				<span class="summary-number active-number">
+					{activeCount.toString().padStart(2, "0")}
+				</span>
+
+				<span class="summary-label">IN PROGRESS</span>
+			</div>
+
+			<div class="summary-item">
+				<span class="summary-number">
+					{milestones.length.toString().padStart(2, "0")}
+				</span>
+
+				<span class="summary-label">TOTAL MILESTONES</span>
+			</div>
+		</div>
+
+		<!-- DEVELOPMENT TIMELINE -->
+
+		<section
+			class="timeline-section"
+			aria-labelledby="timeline-title"
+		>
+			<div class="section-heading">
+				<span class="eyebrow">PROJECT MILESTONES</span>
+
+				<h2 id="timeline-title">
+					The road ahead<span class="heading-dot">.</span>
+				</h2>
+
+				<p>
+					A look at what's been completed,
+					what's currently underway and what's next.
+				</p>
+			</div>
+
+			<ol class="timeline">
+				{milestones.map((milestone, index) => (
+					<li class={`timeline-item ${milestone.status}`}>
+						<div
+							class="timeline-marker"
+							aria-hidden="true"
+						>
+							<span>
+								{String(index + 1).padStart(2, "0")}
+							</span>
+						</div>
+
+						<article class="milestone-card">
+							<div class="milestone-header">
+								<span class="milestone-number">
+									MILESTONE {String(index + 1).padStart(2, "0")}
+								</span>
+
+								<span class={`status ${milestone.status}`}>
+									<span
+										class="status-dot"
+										aria-hidden="true"
+									></span>
+									{statusLabels[milestone.status]}
+								</span>
+							</div>
+
+							<h3>{milestone.title}</h3>
+
+							<p class="milestone-description">
+								{milestone.description}
+							</p>
+
+							{milestone.deliverables.length > 0 && (
+								<details class="milestone-details">
+									<summary>
+										<span>Key deliverables</span>
+										<span
+											class="details-icon"
+											aria-hidden="true"
+										>+</span>
+									</summary>
+
+									<div class="details-content">
+										<ul class="deliverables-list">
+											{milestone.deliverables.map(
+												(deliverable) => (
+													<li>{deliverable}</li>
+												)
+											)}
+										</ul>
+
+										{milestone.posts.length > 0 && (
+											<div class="related-posts">
+												<span class="related-label">
+													RELATED DEVLOG POSTS
+												</span>
+
+												{milestone.posts.map((post) => (
+													<a
+														href={`${base}devlog/${post.slug}/`}
+													>
+														{post.title} ↗
+													</a>
+												))}
+											</div>
+										)}
+									</div>
+								</details>
+							)}
+						</article>
+					</li>
+				))}
+			</ol>
 		</section>
 
-		<section class="roadmap-section">
-			<h2>In Progress</h2>
-
-			<div class="milestone-list">
-				{inProgressMilestones.map((milestone) => (
-					<article class="milestone-card">
-						<span class="status in-progress">
-							In Progress
-						</span>
-
-						<h3>{milestone.title}</h3>
-
-						<p>{milestone.description}</p>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section class="roadmap-section">
-			<h2>Upcoming Milestones</h2>
-
-			<div class="milestone-list">
-				{plannedMilestones.map((milestone) => (
-					<article class="milestone-card">
-						<span class="status planned">
-							Planned
-						</span>
-
-						<h3>{milestone.title}</h3>
-
-						<p>{milestone.description}</p>
-					</article>
-				))}
-			</div>
-		</section>
+		<!-- FOOTER -->
 
 		<footer class="roadmap-footer">
-			<p>
-				Want to follow the development journey?
-			</p>
+			<div class="footer-content">
+				<span class="eyebrow">
+					BEHIND THE DEVELOPMENT
+				</span>
 
-			<a href={`${import.meta.env.BASE_URL}devlog/`}>
-				Explore the Development Journal →
-			</a>
+				<h2>Follow the journey.</h2>
+
+				<p>
+					Want to see what goes into building Guanche Warriors?
+					Follow the development journal for updates,
+					technical challenges and lessons learned.
+				</p>
+
+				<a href={`${base}devlog/`} class="journal-link">
+					Read the development journal →
+				</a>
+			</div>
 		</footer>
 
-	</div>
+	</main>
 </MainLayout>
 
 <style>
-	.roadmap-page {
-		max-width: 950px;
-		margin: 0 auto;
-		padding: 80px 40px;
-	}
+	/* PAGE LAYOUT */
 
-	.roadmap-header {
-		margin-bottom: 64px;
+	.roadmap-page {
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 90px 40px 110px;
 	}
 
 	.eyebrow {
-		color: #d69b48;
+		display: block;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
 		font-size: 12px;
-		font-weight: bold;
-		letter-spacing: 3px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		line-height: 1.6;
 	}
 
-	h1 {
-		font-size: clamp(36px, 6vw, 60px);
-		margin: 20px 0;
+	.highlight,
+	.heading-dot {
+		color: var(--color-coral);
 	}
 
-	.roadmap-header p {
-		color: #aeb5b9;
+	/* HEADER */
+
+	.roadmap-header {
+		max-width: 850px;
+		margin-bottom: 50px;
+	}
+
+	.roadmap-header h1 {
+		font-size: clamp(42px, 6vw, 72px);
+		line-height: 1.1;
+		letter-spacing: -2px;
+		margin: 28px 0 32px;
+	}
+
+	.roadmap-intro {
+		max-width: 720px;
+		color: var(--color-text);
+		font-size: 20px;
+		line-height: 1.7;
+		margin: 0 0 20px;
+	}
+
+	.roadmap-header .roadmap-note {
+		max-width: 720px;
+		color: var(--color-text-muted);
+		font-size: 14px;
 		line-height: 1.8;
+		margin: 0;
 	}
 
-	.roadmap-note {
-		margin-top: 24px;
-		font-size: 13px;
-		font-style: italic;
-		color: #92999e;
-	}
+	/* PROGRESS SUMMARY */
 
-	.roadmap-section {
-		margin-bottom: 60px;
-	}
-
-	h2 {
-		color: #d69b48;
-		margin-bottom: 24px;
-	}
-
-	.milestone-list {
+	.progress-summary {
 		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 16px;
+		margin-bottom: 95px;
 	}
 
-	.milestone-card {
-		background: #242c32;
-		border: 1px solid #394047;
-		border-radius: 6px;
-		padding: 24px;
+	.summary-item {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 26px;
 	}
 
-	.status {
-		display: inline-block;
+	.summary-number {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 42px;
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	.completed-number {
+		color: var(--color-turquoise);
+	}
+
+	.active-number {
+		color: var(--color-coral);
+	}
+
+	.summary-label {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
 		font-size: 11px;
-		font-weight: bold;
-		text-transform: uppercase;
 		letter-spacing: 1px;
 	}
 
-	.completed {
-		color: #75a68b;
+	/* TIMELINE INTRO */
+
+	.timeline-section {
+		margin-bottom: 95px;
 	}
 
-	.in-progress {
-		color: #d69b48;
+	.section-heading {
+		margin-bottom: 50px;
 	}
 
-	.planned {
-		color: #92999e;
+	.section-heading h2 {
+		color: var(--color-text);
+		font-size: clamp(30px, 4vw, 42px);
+		letter-spacing: -1px;
+		margin: 16px 0 20px;
 	}
 
-	h3 {
-		color: #e8e0cf;
-		margin: 12px 0;
+	.section-heading p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.8;
+		margin: 0;
 	}
 
-	.milestone-card p {
-		color: #aeb5b9;
-		font-size: 14px;
-		line-height: 1.7;
+	/* TIMELINE */
+
+	.timeline {
+		position: relative;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.timeline::before {
+		content: "";
+		position: absolute;
+		top: 24px;
+		bottom: 24px;
+		left: 23px;
+		width: 2px;
+		background: var(--color-border);
+	}
+
+	.timeline-item {
+		position: relative;
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr);
+		gap: 24px;
+		align-items: start;
+		margin-bottom: 24px;
+	}
+
+	.timeline-item:last-child {
 		margin-bottom: 0;
 	}
 
-	.roadmap-footer {
-		border-top: 1px solid #394047;
-		padding-top: 32px;
-		margin-top: 40px;
+	.timeline-marker {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		background: var(--color-background);
+		border: 2px solid var(--color-border);
+		border-radius: 50%;
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
 	}
 
-	.roadmap-footer p {
-		color: #aeb5b9;
+	.timeline-item.completed .timeline-marker {
+		border-color: var(--color-turquoise);
+		color: var(--color-turquoise);
 	}
 
-	.roadmap-footer a {
+	.timeline-item.in-progress .timeline-marker {
+		border-color: var(--color-coral);
+		color: var(--color-coral);
+	}
+
+	/* MILESTONE CARDS */
+
+	.milestone-card {
+		min-width: 0;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 28px 30px;
+	}
+
+	.timeline-item.in-progress .milestone-card {
+		border-left: 3px solid var(--color-coral);
+	}
+
+	.milestone-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-bottom: 20px;
+	}
+
+	.milestone-number {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 1px;
+	}
+
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.4px;
+	}
+
+	.status-dot {
 		display: inline-block;
-		margin-top: 12px;
-		color: #d69b48;
-		font-weight: bold;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: currentColor;
+	}
+
+	.status.completed {
+		color: var(--color-turquoise);
+	}
+
+	.status.in-progress {
+		color: var(--color-coral);
+	}
+
+	.status.planned {
+		color: var(--color-text-muted);
+	}
+
+	.milestone-card h3 {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: 24px;
+		letter-spacing: -0.5px;
+		margin: 0 0 14px;
+	}
+
+	.milestone-description {
+		color: var(--color-text-muted);
+		font-size: 15px;
+		line-height: 1.8;
+		margin: 0;
+	}
+
+	/* EXPANDABLE DETAILS */
+
+	.milestone-details {
+		border-top: 1px solid var(--color-border);
+		margin-top: 24px;
+		padding-top: 18px;
+	}
+
+	.milestone-details summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		list-style: none;
+		cursor: pointer;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.milestone-details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.milestone-details summary:hover {
+		color: var(--color-coral);
+	}
+
+	.milestone-details summary:focus-visible {
+		outline: 2px solid var(--color-turquoise);
+		outline-offset: 5px;
+	}
+
+	.details-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		font-size: 18px;
+		line-height: 1;
+	}
+
+	.milestone-details[open] .details-icon {
+		transform: rotate(45deg);
+	}
+
+	.details-content {
+		padding-top: 24px;
+	}
+
+	.deliverables-list {
+		display: grid;
+		gap: 14px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.deliverables-list li {
+		position: relative;
+		padding-left: 22px;
+		color: var(--color-text-muted);
+		font-size: 14px;
+		line-height: 1.7;
+	}
+
+	.deliverables-list li::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 9px;
+		width: 7px;
+		height: 7px;
+		background: var(--color-coral);
+		border-radius: 2px;
+	}
+
+	.timeline-item.completed .deliverables-list li::before {
+		background: var(--color-turquoise);
+	}
+
+	/* RELATED POSTS */
+
+	.related-posts {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+		border-top: 1px solid var(--color-border);
+		margin-top: 26px;
+		padding-top: 22px;
+	}
+
+	.related-label {
+		color: var(--color-yellow);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 1px;
+	}
+
+	.related-posts a {
+		color: var(--color-coral);
+		font-size: 14px;
+		font-weight: 600;
 		text-decoration: none;
 	}
 
-	.roadmap-footer a:hover {
-		color: #e8e0cf;
+	.related-posts a:hover {
+		color: var(--color-turquoise);
 	}
+
+	/* FOOTER */
+
+	.roadmap-footer {
+		border-top: 1px solid var(--color-border);
+		padding-top: 60px;
+	}
+
+	.footer-content {
+		max-width: 720px;
+	}
+
+	.roadmap-footer h2 {
+		color: var(--color-text);
+		font-size: clamp(28px, 4vw, 38px);
+		letter-spacing: -1px;
+		margin: 16px 0 20px;
+	}
+
+	.roadmap-footer p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.8;
+		margin: 0 0 24px;
+	}
+
+	.journal-link {
+		display: inline-block;
+		color: var(--color-coral);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.journal-link:hover {
+		color: var(--color-turquoise);
+	}
+
+	/* RESPONSIVE */
 
 	@media (max-width: 600px) {
 		.roadmap-page {
-			padding: 50px 20px;
+			padding: 60px 20px 80px;
+		}
+
+		.eyebrow {
+			font-size: 10px;
+			letter-spacing: 1.5px;
+		}
+
+		.roadmap-header {
+			margin-bottom: 35px;
+		}
+
+		.roadmap-header h1 {
+			font-size: clamp(38px, 9vw, 52px);
+			letter-spacing: -1.5px;
+			margin: 24px 0;
+		}
+
+		.roadmap-intro {
+			font-size: 17px;
+		}
+
+		.progress-summary {
+			gap: 8px;
+			margin-bottom: 65px;
+		}
+
+		.summary-item {
+			padding: 16px 12px;
+			gap: 10px;
+		}
+
+		.summary-number {
+			font-size: 32px;
+		}
+
+		.summary-label {
+			font-size: 9px;
+			letter-spacing: 0;
+			line-height: 1.5;
+		}
+
+		.timeline-section {
+			margin-bottom: 65px;
+		}
+
+		.section-heading {
+			margin-bottom: 35px;
+		}
+
+		.section-heading p {
+			font-size: 15px;
+		}
+
+		.timeline::before {
+			left: 17px;
+		}
+
+		.timeline-item {
+			grid-template-columns: 36px minmax(0, 1fr);
+			gap: 14px;
+			margin-bottom: 18px;
+		}
+
+		.timeline-marker {
+			width: 36px;
+			height: 36px;
+			font-size: 10px;
 		}
 
 		.milestone-card {
-			padding: 20px;
+			padding: 22px 18px;
+		}
+
+		.milestone-header {
+			gap: 10px;
+			margin-bottom: 16px;
+		}
+
+		.milestone-number,
+		.status {
+			font-size: 10px;
+		}
+
+		.milestone-card h3 {
+			font-size: 21px;
+		}
+
+		.milestone-description,
+		.deliverables-list li {
+			font-size: 14px;
+		}
+
+		.roadmap-footer {
+			padding-top: 45px;
+		}
+
+		.roadmap-footer p {
+			font-size: 15px;
 		}
 	}
 </style>

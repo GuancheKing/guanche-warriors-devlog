@@ -4,6 +4,8 @@ import { getCollection } from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
 import DevlogCard from "../components/DevlogCard.astro";
 
+const base = import.meta.env.BASE_URL;
+
 const latestPosts = (await getCollection(
 	"devlog",
 	({ data }) => data.draft !== true
@@ -14,182 +16,372 @@ const latestPosts = (await getCollection(
 	.slice(0, 3);
 ---
 
-
-
 <MainLayout title="Guanche Warriors | Development Journal">
+
+	<!-- HERO -->
+
 	<section class="hero">
 		<div class="hero-content">
-			<span class="eyebrow">INDEPENDENT GAME DEVELOPMENT</span>
+			<span class="eyebrow">
+				INDEPENDENT JRPG / DEVELOPMENT JOURNAL
+			</span>
 
-			<h1>GUANCHE WARRIORS</h1>
-
-			<p class="hero-subtitle">
-				A journey through the worlds of the Canary Islands.
-			</p>
+			<h1>
+				<span class="hero-line">Guanche</span>
+				<span class="hero-line hero-highlight">Warriors.</span>
+			</h1>
 
 			<p class="hero-description">
-				An indie turn-based JRPG inspired by Canarian mythology,
-				culture and landscapes. Follow the development journey,
-				from the first lines of code to a playable adventure.
+				An indie turn-based JRPG inspired by the Canary Islands.
+				A behind-the-scenes look at its development, from early
+				prototypes and programming challenges to a playable adventure.
 			</p>
 
 			<div class="hero-actions">
-				<a href="#project" class="button-primary">
-					Discover the project
+				<a href="#latest" class="button-primary">
+					Read the devlog
 				</a>
 
-				<a href="#latest" class="button-secondary">
-					Follow development
+				<a href="#developer" class="button-secondary">
+					Behind the project
 				</a>
 			</div>
 		</div>
 	</section>
 
-	<section id="project" class="project-intro">
-		<h2>Building a world, one pixel at a time.</h2>
-		<p>
-			Welcome to the development journal of Guanche Warriors.
-		</p>
+	<!-- BEHIND THE PROJECT -->
+
+	<section id="developer" class="developer-section">
+		<div class="developer-card">
+			<div class="developer-meta">
+				<span class="developer-label">
+					BEHIND THE PROJECT
+				</span>
+
+				<span class="developer-status">
+					@GUANCHEKING
+				</span>
+			</div>
+
+			<h2>Making games, one turn at a time.</h2>
+
+			<p>
+				I'm Pepo, a programmer in the making.
+				Guanche Warriors is my personal JRPG project,
+				and this journal is where I document what I'm building,
+				the challenges I run into and everything I learn along the way.
+			</p>
+
+			<a href={`${base}about/`} class="developer-link">
+				Meet the developer →
+			</a>
+		</div>
 	</section>
 
+	<!-- RECENT WRITING -->
 
-<section id="latest" class="latest-section">
-	<h2>Latest development updates</h2>
+	<section id="latest" class="latest-section">
+		<div class="section-heading">
+			<span class="section-eyebrow">THE JOURNAL</span>
 
-	<p>Follow the latest progress of Guanche Warriors.</p>
+			<h2>Recent writing<span class="heading-accent">.</span></h2>
 
-	<div class="latest-grid">
-		{latestPosts.map((post) => (
-			<DevlogCard post={post} />
-		))}
-	</div>
+			<p>
+				Development updates, technical challenges and lessons
+				learned while building Guanche Warriors.
+			</p>
+		</div>
 
-    <a href={`${import.meta.env.BASE_URL}devlog/`} class="all-posts">
-        VIEW ALL UPDATES →
-    </a>
-</section>
+		<div class="latest-grid">
+			{latestPosts.map((post) => (
+				<DevlogCard post={post} />
+			))}
+		</div>
+
+		<a href={`${base}devlog/`} class="all-posts">
+			VIEW ALL POSTS →
+		</a>
+	</section>
 
 </MainLayout>
 
 <style>
+	/* HERO */
+
 	.hero {
-		min-height: 580px;
 		display: flex;
 		align-items: center;
-		padding: 80px 40px;
+		padding: 90px 40px 50px;
 	}
 
 	.hero-content {
+		width: 100%;
 		max-width: 850px;
 		margin: 0 auto;
 	}
 
-	.eyebrow {
-		color: #d69b48;
+	.eyebrow,
+	.section-eyebrow {
+		display: block;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
 		font-size: 12px;
-		font-weight: bold;
-		letter-spacing: 3px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		line-height: 1.6;
 	}
 
 	.hero h1 {
-		font-size: clamp(38px, 7vw, 76px);
-		letter-spacing: 2px;
-		margin: 24px 0 12px;
-		line-height: 1.1;
+		font-size: clamp(56px, 8vw, 100px);
+		font-weight: 700;
+		letter-spacing: -3px;
+		line-height: 1.05;
+		margin: 28px 0 28px;
 	}
 
-	.hero-subtitle {
-		font-size: 22px;
-		color: #d69b48;
+	.hero-line {
+		display: block;
+	}
+
+	.hero-highlight {
+		color: var(--color-coral);
 	}
 
 	.hero-description {
 		max-width: 650px;
-		color: #aeb5b9;
+		color: var(--color-text-muted);
+		font-size: 17px;
 		line-height: 1.8;
-		font-size: 16px;
+		margin: 0;
 	}
 
 	.hero-actions {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 16px;
-		margin-top: 32px;
+		margin-top: 36px;
 	}
 
 	.hero-actions a {
-		padding: 13px 20px;
-		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 14px 22px;
 		border-radius: 4px;
 		font-size: 14px;
+		font-weight: 600;
+		text-decoration: none;
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.hero-actions a:hover {
+		transform: translateY(-2px);
 	}
 
 	.button-primary {
-		background: #d69b48;
-		color: #15191d;
+		background: var(--color-coral);
+		color: var(--color-background);
+	}
+
+	.button-primary:hover {
+		background: var(--color-yellow);
 	}
 
 	.button-secondary {
-		border: 1px solid #59636b;
-		color: #e8e0cf;
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
 	}
 
-	.project-intro,
+	.button-secondary:hover {
+		border-color: var(--color-turquoise);
+	}
+
+	/* SHARED SECTION LAYOUT */
+
+	.developer-section,
 	.latest-section {
 		max-width: 850px;
 		margin: 0 auto;
-		padding: 60px 40px;
+		padding: 50px 40px;
 	}
 
+	/* BEHIND THE PROJECT */
 
-.project-intro h2,
-.latest-section h2 {
-	color: #d69b48;
-}
-
-/* Latest development updates */
-
-.latest-grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 24px;
-	margin-top: 32px;
-	margin-bottom: 24px;
-}
-
-.all-posts {
-	display: inline-block;
-	margin-top: 16px;
-	color: #d69b48;
-	font-size: 13px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.all-posts:hover {
-	color: #e8e0cf;
-}
-
-/* Responsive design */
-
-@media (max-width: 600px) {
-	.hero {
-		min-height: auto;
-		padding: 70px 20px;
+	.developer-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 36px;
 	}
 
-	.hero-subtitle {
-		font-size: 18px;
+	.developer-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-bottom: 28px;
 	}
 
-	.hero-description {
-		font-size: 14px;
+	.developer-label,
+	.developer-status {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 1px;
 	}
 
-	.project-intro,
+	.developer-label {
+		color: var(--color-yellow);
+	}
+
+	.developer-status {
+		color: var(--color-turquoise);
+	}
+
+	.developer-card h2 {
+		color: var(--color-text);
+		font-size: clamp(24px, 3vw, 32px);
+		line-height: 1.25;
+		margin: 0 0 20px;
+	}
+
+	.developer-card p {
+		max-width: 650px;
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.8;
+		margin: 0 0 28px;
+	}
+
+	.developer-link {
+		color: var(--color-coral);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.developer-link:hover {
+		text-decoration: underline;
+	}
+
+	/* RECENT WRITING */
+
 	.latest-section {
-		padding: 45px 20px;
+		padding-top: 65px;
+		padding-bottom: 90px;
 	}
-}
-</style>
 
+	.section-heading h2 {
+		color: var(--color-text);
+		font-size: clamp(28px, 4vw, 36px);
+		letter-spacing: -1px;
+		margin: 12px 0 16px;
+	}
+
+	.heading-accent {
+		color: var(--color-coral);
+	}
+
+	.section-heading p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	.latest-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		margin-top: 36px;
+		margin-bottom: 24px;
+	}
+
+	.all-posts {
+		display: inline-block;
+		margin-top: 16px;
+		color: var(--color-coral);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 0.5px;
+		text-decoration: none;
+	}
+
+	.all-posts:hover {
+		color: var(--color-turquoise);
+	}
+
+	/* RESPONSIVE */
+
+	@media (max-width: 600px) {
+		.hero {
+			padding: 65px 20px 35px;
+		}
+
+		.eyebrow,
+		.section-eyebrow {
+			font-size: 10px;
+			letter-spacing: 1.5px;
+		}
+
+		.hero h1 {
+			font-size: clamp(48px, 12vw, 64px);
+			letter-spacing: -2px;
+			margin: 24px 0;
+		}
+
+		.hero-description {
+			font-size: 15px;
+		}
+
+		.hero-actions {
+			gap: 12px;
+			margin-top: 28px;
+		}
+
+		.hero-actions a {
+			padding: 13px 18px;
+		}
+
+		.developer-section,
+		.latest-section {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		.developer-section {
+			padding-top: 35px;
+			padding-bottom: 35px;
+		}
+
+		.developer-card {
+			padding: 24px;
+		}
+
+		.developer-meta {
+			margin-bottom: 20px;
+		}
+
+		.developer-card p {
+			font-size: 15px;
+		}
+
+		.latest-section {
+			padding-top: 45px;
+			padding-bottom: 60px;
+		}
+
+		.section-heading p {
+			font-size: 15px;
+		}
+
+		.latest-grid {
+			margin-top: 28px;
+		}
+	}
+</style>

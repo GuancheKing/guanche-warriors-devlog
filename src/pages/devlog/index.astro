@@ -18,113 +18,341 @@ const guanchePosts = posts.filter(
 const developerNotes = posts.filter(
 	(post) => post.data.series === "developer-notes"
 );
-
 ---
 
 <MainLayout title="Devlog | Guanche Warriors">
-	<section class="devlog-page">
+	<main class="devlog-page">
+
+		<!-- PAGE HEADER -->
+
 		<header class="page-heading">
-			<span>THE DEVELOPMENT JOURNAL</span>
-			<h1>Devlog</h1>
-			<p>
-				Follow the development journey of Guanche Warriors.
+			<span class="eyebrow">
+				THE DEVELOPMENT JOURNAL
+			</span>
+
+			<h1>
+				The{" "}
+				<span class="highlight">Devlog.</span>
+			</h1>
+
+			<p class="page-intro">
+				Building a game is a journey of experiments,
+				challenges and discoveries. This is where
+				I document mine.
+			</p>
+
+			<p class="page-description">
+				Follow the development of Guanche Warriors,
+				explore programming challenges and see
+				what I'm learning along the way.
 			</p>
 		</header>
 
+		<!-- GUANCHE WARRIORS DEVELOPMENT -->
 
-        <section class="posts-section">
-            <h2>Guanche Warriors Development</h2>
+		<section
+			class="posts-section guanche-section"
+			aria-labelledby="guanche-heading"
+		>
+			<div class="section-header">
+				<div class="section-intro">
+					<span class="section-eyebrow">
+						THE GAME
+					</span>
 
-            <p>
-                Follow the development of Guanche Warriors,
-                from gameplay systems to production milestones.
-            </p>
+					<h2 id="guanche-heading">
+						Guanche Warriors{" "}
+						<span class="section-highlight">
+							Development.
+						</span>
+					</h2>
 
-            <div class="posts-grid">
-                {guanchePosts.map((post) => (
-                    <DevlogCard post={post} />
-                ))}
-            </div>
-        </section>
+					<p>
+						Behind the scenes of an independent JRPG,
+						from early prototypes to development milestones.
+					</p>
+				</div>
 
-        <section class="posts-section">
-            <h2>Developer Notes</h2>
+				<span class="post-count">
+					{String(guanchePosts.length).padStart(2, "0")}{" "}
+					{guanchePosts.length === 1 ? "POST" : "POSTS"}
+				</span>
+			</div>
 
-            <p>
-                Programming challenges, experiments and lessons
-                learned while developing games.
-            </p>
+			{guanchePosts.length > 0 ? (
+				<div class="posts-grid">
+					{guanchePosts.map((post) => (
+						<DevlogCard post={post} />
+					))}
+				</div>
+			) : (
+				<p class="empty-state">
+					Development updates are on their way.
+				</p>
+			)}
+		</section>
 
-            <div class="posts-grid">
-                {developerNotes.map((post) => (
-                    <DevlogCard post={post} />
-                ))}
-            </div>
-        </section>
+		<!-- DEVELOPER NOTES -->
 
-	</section>
+		<section
+			class="posts-section notes-section"
+			aria-labelledby="notes-heading"
+		>
+			<div class="section-header">
+				<div class="section-intro">
+					<span class="section-eyebrow">
+						BEYOND THE GAME
+					</span>
+
+					<h2 id="notes-heading">
+						Developer{" "}
+						<span class="section-highlight">
+							Notes.
+						</span>
+					</h2>
+
+					<p>
+						Programming challenges, experiments
+						and lessons learned while making games
+						and exploring new technologies.
+					</p>
+				</div>
+
+				<span class="post-count">
+					{String(developerNotes.length).padStart(2, "0")}{" "}
+					{developerNotes.length === 1 ? "POST" : "POSTS"}
+				</span>
+			</div>
+
+			{developerNotes.length > 0 ? (
+				<div class="posts-grid">
+					{developerNotes.map((post) => (
+						<DevlogCard post={post} />
+					))}
+				</div>
+			) : (
+				<p class="empty-state">
+					More notes and experiments coming soon.
+				</p>
+			)}
+		</section>
+
+	</main>
 </MainLayout>
 
 <style>
+	/* PAGE LAYOUT */
+
 	.devlog-page {
 		max-width: 1100px;
 		margin: 0 auto;
-		padding: 80px 40px;
+		padding: 90px 40px 110px;
 	}
+
+	/* PAGE HEADER */
 
 	.page-heading {
-		margin-bottom: 48px;
+		max-width: 850px;
+		margin-bottom: 100px;
 	}
 
-	.page-heading span {
-		color: #d69b48;
-		font-size: 11px;
-		letter-spacing: 3px;
-		font-weight: bold;
+	.eyebrow {
+		display: block;
+		color: var(--color-turquoise);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		line-height: 1.6;
 	}
 
 	.page-heading h1 {
-		font-size: 48px;
-		margin: 16px 0;
+		color: var(--color-text);
+		font-size: clamp(42px, 6vw, 72px);
+		letter-spacing: -2px;
+		line-height: 1.1;
+		margin: 28px 0 32px;
 	}
 
-	.page-heading p {
-		color: #aeb5b9;
+	.highlight {
+		color: var(--color-coral);
 	}
+
+	.page-intro {
+		max-width: 740px;
+		color: var(--color-text);
+		font-size: 21px;
+		font-weight: 500;
+		line-height: 1.6;
+		margin: 0 0 20px;
+	}
+
+	.page-description {
+		max-width: 720px;
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.9;
+		margin: 0;
+	}
+
+	/* POST SECTIONS */
+
+	.posts-section {
+		--section-accent: var(--color-coral);
+
+		border-top: 1px solid var(--color-border);
+		padding-top: 65px;
+		margin-bottom: 100px;
+	}
+
+	.posts-section:last-child {
+		margin-bottom: 0;
+	}
+
+	.notes-section {
+		--section-accent: var(--color-turquoise);
+	}
+
+	.section-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 30px;
+		margin-bottom: 35px;
+	}
+
+	.section-intro {
+		max-width: 700px;
+	}
+
+	.section-eyebrow {
+		display: block;
+		color: var(--section-accent);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+	}
+
+	.section-header h2 {
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-size: clamp(30px, 4vw, 42px);
+		letter-spacing: -1px;
+		line-height: 1.2;
+		margin: 16px 0 20px;
+	}
+
+	.section-highlight {
+		color: var(--section-accent);
+	}
+
+	.section-header p {
+		color: var(--color-text-muted);
+		font-size: 16px;
+		line-height: 1.8;
+		margin: 0;
+	}
+
+	/* POST COUNT */
+
+	.post-count {
+		flex-shrink: 0;
+		color: var(--section-accent);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.6px;
+		white-space: nowrap;
+		margin-top: 4px;
+	}
+
+	/* POSTS GRID */
 
 	.posts-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 24px;
+		align-items: stretch;
 	}
 
-	@media (max-width: 600px) {
-		.devlog-page {
-			padding: 50px 20px;
+	/* EMPTY STATE */
+
+	.empty-state {
+		background: var(--color-surface);
+		border: 1px dashed var(--color-border);
+		border-radius: 8px;
+		padding: 35px;
+		color: var(--color-text-muted);
+		font-size: 15px;
+		line-height: 1.7;
+		text-align: center;
+	}
+
+	/* RESPONSIVE */
+
+	@media (max-width: 700px) {
+		.section-header {
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.post-count {
+			margin-top: 0;
 		}
 
 		.posts-grid {
 			grid-template-columns: 1fr;
 		}
+	}
+
+	@media (max-width: 600px) {
+		.devlog-page {
+			padding: 60px 20px 80px;
+		}
+
+		.page-heading {
+			margin-bottom: 70px;
+		}
+
+		.eyebrow {
+			font-size: 10px;
+			letter-spacing: 1.5px;
+		}
 
 		.page-heading h1 {
-			font-size: 36px;
+			font-size: clamp(38px, 9vw, 52px);
+			letter-spacing: -1.5px;
+			margin: 24px 0;
+		}
+
+		.page-intro {
+			font-size: 18px;
+		}
+
+		.page-description {
+			font-size: 15px;
+		}
+
+		.posts-section {
+			padding-top: 50px;
+			margin-bottom: 70px;
+		}
+
+		.section-header {
+			margin-bottom: 28px;
+		}
+
+		.section-header p {
+			font-size: 15px;
+		}
+
+		.posts-grid {
+			gap: 18px;
+		}
+
+		.empty-state {
+			padding: 25px;
 		}
 	}
-        .posts-section {
-            margin-top: 64px;
-        }
-
-        .posts-section h2 {
-            color: #d69b48;
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-
-        .posts-section > p {
-            color: #aeb5b9;
-            line-height: 1.7;
-            margin-bottom: 28px;
-        }
-
 </style>

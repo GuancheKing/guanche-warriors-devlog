@@ -1,4 +1,28 @@
 
+/* DESIGN SYSTEM — GUANCHEKING VOLCANIC POP */
+
+:root {
+	/* Backgrounds */
+	--color-background: #15151f;
+	--color-surface: #232331;
+	--color-border: #393947;
+
+	/* Brand colors */
+	--color-coral: #ff7043;
+	--color-turquoise: #00d6c1;
+	--color-yellow: #ffd447;
+
+	/* Typography colors */
+	--color-text: #f5f0e8;
+	--color-text-muted: #b8b8c7;
+
+    /* Typography */
+    --font-heading: "Space Grotesk", sans-serif;
+    --font-body: "DM Sans", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+}
+
+
 /* GLOBAL RESET */
 
 * {
@@ -9,12 +33,28 @@ html {
 	scroll-behavior: smooth;
 }
 
+
 body {
 	margin: 0;
-	background-color: #15191d;
-	color: #e8e0cf;
-	font-family: Arial, Helvetica, sans-serif;
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: var(--font-body);
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-heading);
+}
+
+code,
+pre {
+	font-family: var(--font-mono);
+}
+
 
 /* GLOBAL ELEMENTS */
 
@@ -28,6 +68,7 @@ a {
 }
 
 ::selection {
-	background-color: #d69b48;
-	color: #15191d;
+	background-color: var(--color-coral);
+	color: var(--color-background);
 }
+
