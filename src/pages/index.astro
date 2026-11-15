@@ -64,9 +64,9 @@ const latestPosts = (await getCollection(
 		))}
 	</div>
 
-	<a href="/devlog/" class="all-posts">
-		VIEW ALL UPDATES →
-	</a>
+    <a href={`${import.meta.env.BASE_URL}devlog/`} class="all-posts">
+        VIEW ALL UPDATES →
+    </a>
 </section>
 
 </MainLayout>
@@ -141,10 +141,37 @@ const latestPosts = (await getCollection(
 		padding: 60px 40px;
 	}
 
-	.project-intro h2,
-	.latest-section h2 {
-		color: #d69b48;
-	}
+
+.project-intro h2,
+.latest-section h2 {
+	color: #d69b48;
+}
+
+/* Latest development updates */
+
+.latest-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 24px;
+	margin-top: 32px;
+	margin-bottom: 24px;
+}
+
+.all-posts {
+	display: inline-block;
+	margin-top: 16px;
+	color: #d69b48;
+	font-size: 13px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.all-posts:hover {
+	color: #e8e0cf;
+}
+
+/* Responsive design */
+
 @media (max-width: 600px) {
 	.hero {
 		min-height: auto;
@@ -163,33 +190,6 @@ const latestPosts = (await getCollection(
 	.latest-section {
 		padding: 45px 20px;
 	}
-
-    .latest-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-        margin-top: 32px;
-    }
-
-    .all-posts {
-        display: inline-block;
-        margin-top: 32px;
-        color: #d69b48;
-        font-size: 13px;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    .all-posts:hover {
-        color: #e8e0cf;
-    }
-
-    @media (max-width: 600px) {
-        .latest-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
 }
 </style>
 
