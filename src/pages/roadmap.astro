@@ -2,96 +2,142 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 
-const features = [
+const milestones = [
 	{
-		title: "Player Movement & Sprint",
-		description: "Character movement and sprint mechanics.",
+		title: "Project Foundations",
+		description:
+			"Initial Unity project setup, development environment and core architecture.",
 		status: "completed"
 	},
 	{
-		title: "NPC Dialogue",
-		description: "NPC interactions and dialogue with player movement control.",
+		title: "Exploration Systems",
+		description:
+			"Foundational character movement, interactions and exploration mechanics.",
 		status: "completed"
 	},
 	{
-		title: "NPC Facing",
-		description: "Characters face the player during interactions.",
-		status: "completed"
+		title: "Gameplay Development",
+		description:
+			"Expanding the core gameplay systems and refining the player experience.",
+		status: "in-progress"
 	},
 	{
-		title: "Spiritual-only Objects",
-		description: "Objects visible in the spiritual dimension.",
-		status: "completed"
+		title: "Visual Development",
+		description:
+			"Exploring the artistic direction, environments and visual identity.",
+		status: "in-progress"
 	},
 	{
-		title: "Interaction Prompts",
-		description: "Visual prompts for interactable objects and NPCs.",
-		status: "completed"
-	},
-	{
-		title: "Core Combat Prototype",
-		description: "Foundation for the turn-based battle system.",
+		title: "Core Gameplay Integration",
+		description:
+			"Bringing the main gameplay systems together into a cohesive experience.",
 		status: "planned"
 	},
 	{
-		title: "Battle UI",
-		description: "Interface for actions, characters and battle information.",
-		status: "planned"
-	},
-	{
-		title: "Exploration Polish",
-		description: "Refining movement, interactions and exploration feedback.",
+		title: "Playable Demo",
+		description:
+			"Preparing a first playable experience to showcase the project's vision.",
 		status: "planned"
 	}
 ];
 
-const completedFeatures = features.filter(
-	(feature) => feature.status === "completed"
+const completedMilestones = milestones.filter(
+	(milestone) => milestone.status === "completed"
 );
 
-const plannedFeatures = features.filter(
-	(feature) => feature.status === "planned"
+const inProgressMilestones = milestones.filter(
+	(milestone) => milestone.status === "in-progress"
+);
+
+const plannedMilestones = milestones.filter(
+	(milestone) => milestone.status === "planned"
 );
 ---
 
 <MainLayout title="Roadmap | Guanche Warriors">
 	<div class="roadmap-page">
+
 		<header class="roadmap-header">
 			<span class="eyebrow">DEVELOPMENT PROGRESS</span>
+
 			<h1>Development Roadmap</h1>
+
 			<p>
-				Follow the journey from early gameplay systems
-				to a playable JRPG demo.
+				Follow the journey of Guanche Warriors,
+				from its early foundations to a playable JRPG demo.
+			</p>
+
+			<p class="roadmap-note">
+				This roadmap provides a high-level overview
+				of development progress. Features and priorities
+				may evolve throughout production.
 			</p>
 		</header>
 
 		<section class="roadmap-section">
-			<h2>Completed Features</h2>
+			<h2>Completed Milestones</h2>
 
-			<div class="feature-list">
-				{completedFeatures.map((feature) => (
-					<article class="feature-card">
-						<span class="status completed">Completed</span>
-						<h3>{feature.title}</h3>
-						<p>{feature.description}</p>
+			<div class="milestone-list">
+				{completedMilestones.map((milestone) => (
+					<article class="milestone-card">
+						<span class="status completed">
+							Completed
+						</span>
+
+						<h3>{milestone.title}</h3>
+
+						<p>{milestone.description}</p>
 					</article>
 				))}
 			</div>
 		</section>
 
 		<section class="roadmap-section">
-			<h2>Planned Features</h2>
+			<h2>In Progress</h2>
 
-			<div class="feature-list">
-				{plannedFeatures.map((feature) => (
-					<article class="feature-card">
-						<span class="status planned">Planned</span>
-						<h3>{feature.title}</h3>
-						<p>{feature.description}</p>
+			<div class="milestone-list">
+				{inProgressMilestones.map((milestone) => (
+					<article class="milestone-card">
+						<span class="status in-progress">
+							In Progress
+						</span>
+
+						<h3>{milestone.title}</h3>
+
+						<p>{milestone.description}</p>
 					</article>
 				))}
 			</div>
 		</section>
+
+		<section class="roadmap-section">
+			<h2>Upcoming Milestones</h2>
+
+			<div class="milestone-list">
+				{plannedMilestones.map((milestone) => (
+					<article class="milestone-card">
+						<span class="status planned">
+							Planned
+						</span>
+
+						<h3>{milestone.title}</h3>
+
+						<p>{milestone.description}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<footer class="roadmap-footer">
+			<p>
+				Want to follow the development journey?
+			</p>
+
+			<a href={`${import.meta.env.BASE_URL}devlog/`}>
+				Explore the Development Journal →
+			</a>
+		</footer>
+
 	</div>
 </MainLayout>
 
@@ -123,6 +169,13 @@ const plannedFeatures = features.filter(
 		line-height: 1.8;
 	}
 
+	.roadmap-note {
+		margin-top: 24px;
+		font-size: 13px;
+		font-style: italic;
+		color: #92999e;
+	}
+
 	.roadmap-section {
 		margin-bottom: 60px;
 	}
@@ -132,12 +185,12 @@ const plannedFeatures = features.filter(
 		margin-bottom: 24px;
 	}
 
-	.feature-list {
+	.milestone-list {
 		display: grid;
 		gap: 16px;
 	}
 
-	.feature-card {
+	.milestone-card {
 		background: #242c32;
 		border: 1px solid #394047;
 		border-radius: 6px;
@@ -156,8 +209,12 @@ const plannedFeatures = features.filter(
 		color: #75a68b;
 	}
 
-	.planned {
+	.in-progress {
 		color: #d69b48;
+	}
+
+	.planned {
+		color: #92999e;
 	}
 
 	h3 {
@@ -165,11 +222,33 @@ const plannedFeatures = features.filter(
 		margin: 12px 0;
 	}
 
-	.feature-card p {
+	.milestone-card p {
 		color: #aeb5b9;
 		font-size: 14px;
 		line-height: 1.7;
 		margin-bottom: 0;
+	}
+
+	.roadmap-footer {
+		border-top: 1px solid #394047;
+		padding-top: 32px;
+		margin-top: 40px;
+	}
+
+	.roadmap-footer p {
+		color: #aeb5b9;
+	}
+
+	.roadmap-footer a {
+		display: inline-block;
+		margin-top: 12px;
+		color: #d69b48;
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	.roadmap-footer a:hover {
+		color: #e8e0cf;
 	}
 
 	@media (max-width: 600px) {
@@ -177,7 +256,7 @@ const plannedFeatures = features.filter(
 			padding: 50px 20px;
 		}
 
-		.feature-card {
+		.milestone-card {
 			padding: 20px;
 		}
 	}
