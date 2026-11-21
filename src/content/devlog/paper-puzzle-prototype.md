@@ -3,7 +3,7 @@
 title: "From Paper Puzzle to First Prototype"
 description: "Taking an early puzzle idea involving the physical and spiritual worlds from paper to a basic prototype in Unity."
 pubDate: 2026-11-21
-category: "Design & Prototyping"
+category: "Game Design"
 series: "guanche-warriors"
 cover: "/images/devlog/paper-puzzle-cover.png"
 draft: false
