@@ -63,7 +63,7 @@ export const ui = {
 		"home.developerLabel": "SOBRE EL PROYECTO",
 		"home.developerTitle": "Creando videojuegos, turno a turno.",
 		"home.developerDescription":
-			"Soy Pepo, un programador aprendiendo a programar videojuegos. Guanche Warriors es un proyecto personal, y este devlog es donde documento lo que voy construyendo, los retos que encuentro y todo lo que aprendo por el camino.",
+			"Soy Pepo, un programador aprendiendo a desarrollar videojuegos. Guanche Warriors es un proyecto personal, y este devlog es donde documento lo que voy construyendo, los retos que encuentro y todo lo que aprendo por el camino.",
 		"home.meetDeveloper": "Conoce al desarrollador",
 
 		"home.journalLabel": "EL DIARIO",
